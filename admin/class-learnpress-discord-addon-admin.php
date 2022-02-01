@@ -106,7 +106,7 @@ class Learnpress_Discord_Addon_Admin {
 	 * @since    1.0.0
 	 */
 	public function ets_learnpress_discord_add_settings_menu() {
-		add_submenu_page( 'learn_press', __( 'Discord Settings', 'learnpress-discord-addon' ), __( 'Discord Settings', 'learnpress-discord-addon' ), 'manage_options', 'learnpress-discord-addon', array( $this, 'ets_learnpress_discord_setting_page' ) );
+		add_submenu_page( 'learn_press', __( 'Discord Settings', 'learnpress-discord-addon' ), __( 'Discord Settings', 'learnpress-discord-addon' ), 'manage_options', 'learnpress-discord-settings', array( $this, 'ets_learnpress_discord_setting_page' ) );
 	}
         
 	/**
