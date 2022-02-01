@@ -40,6 +40,21 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'LEARNPRESS_DISCORD_ADDON_VERSION', '1.0.0' );
 
 /**
+ * Define plugin directory path
+ */
+define( 'LEARNPRESS_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
+
+/**
+ * Discord Bot Permissions.
+ */
+define( 'LEARNPRESS_DISCORD_BOT_PERMISSIONS', 8 );
+
+/**
+ * Discord API url. 
+ */
+define( 'LEARNPRESS_DISCORD_API_URL', 'https://discord.com/api/v6/' );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-learnpress-discord-addon-activator.php
  */
