@@ -73,7 +73,9 @@ class Learnpress_Discord_Addon_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learnpress-discord-addon-admin.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name .'-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learnpress-discord-addon-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -95,8 +97,17 @@ class Learnpress_Discord_Addon_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learnpress-discord-addon-admin.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name . '-select2',  plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
+            
+		wp_register_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learnpress-discord-addon-admin.js', array( 'jquery' ), $this->version, false );                
+		$script_params = array(
+			'admin_ajax'                       => admin_url( 'admin-ajax.php' ),
+			'permissions_const'                => LEARNPRESS_DISCORD_BOT_PERMISSIONS,
+			'is_admin'                         => is_admin(),
+			'ets_learnpress_discord_nonce' => wp_create_nonce( 'ets-learnpress-discord-ajax-nonce' ),
+		);
+		wp_localize_script( $this->plugin_name, 'etsLearnPressParams', $script_params );
 
 	}
         
@@ -120,7 +131,197 @@ class Learnpress_Discord_Addon_Admin {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
 		}
-                echo 'LearnPress Discord';
+                wp_enqueue_style( $this->plugin_name .'-select2' );                
+                wp_enqueue_style( $this->plugin_name . 'discord_tabs_css' );
+                wp_enqueue_style( $this->plugin_name );                
+                wp_enqueue_script( $this->plugin_name . '-select2' );
+                wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
+                wp_enqueue_script( $this->plugin_name );
+                wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_script( 'jquery-ui-droppable' );  
+                
+		require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/learnpress-discord-addon-admin-display.php';                
 	}
+        
+	/**
+	 * Callback to Connect to bot
+	 *
+	 * @since    1.0.0
+	 */
+	public function ets_learnpress_discord_connect_to_bot() {
+
+		if ( current_user_can( 'administrator' ) && isset( $_GET['action'] ) && $_GET['action'] == 'learnpress-discord-connect-to-bot' ) {
+			$params                    = array(
+				'client_id'   => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_client_id' ) ) ),
+				'permissions' => LEARNPRESS_DISCORD_BOT_PERMISSIONS,
+				'scope'       => 'bot',
+				'guild_id'    => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_server_id' ) ) ),
+			);
+			$discord_authorise_api_url = LEARNPRESS_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+
+			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
+			exit;
+		} 
+        }
+        
+	/*
+	Save application details
+	*/
+	public function ets_learnpress_discord_application_settings() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		$ets_learnpress_discord_client_id = isset( $_POST['ets_learnpress_discord_client_id'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_client_id'] ) ) : '';
+
+		$ets_learnpress_discord_client_secret = isset( $_POST['ets_learnpress_discord_client_secret'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_client_secret'] ) ) : '';
+
+		$ets_learnpress_discord_bot_token = isset( $_POST['ets_learnpress_discord_bot_token'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_bot_token'] ) ) : '';
+
+		$ets_learnpress_discord_redirect_url = isset( $_POST['ets_learnpress_discord_redirect_url'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_redirect_url'] ) ) : '';
+                
+                $ets_learnpress_discord_redirect_page_id  = isset( $_POST['ets_learnpress_discord_redirect_page_id'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_redirect_page_id'] ) ) : '';
+
+		$ets_learnpress_discord_server_id = isset( $_POST['ets_learnpress_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_server_id'] ) ) : '';
+
+		if ( isset( $_POST['submit'] ) ) {
+			if ( isset( $_POST['ets_learnpress_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_learnpress_discord_save_settings'], 'save_learnpress_discord_general_settings' ) ) {
+				if ( $ets_learnpress_discord_client_id ) {
+					update_option( 'ets_learnpress_discord_client_id', $ets_learnpress_discord_client_id );
+				}
+
+				if ( $ets_learnpress_discord_client_secret ) {
+					update_option( 'ets_learnpress_discord_client_secret', $ets_learnpress_discord_client_secret );
+				}
+
+				if ( $ets_learnpress_discord_bot_token ) {
+					update_option( 'ets_learnpress_discord_bot_token', $ets_learnpress_discord_bot_token );
+				}
+
+				if ( $ets_learnpress_discord_redirect_url ) {
+					update_option( 'ets_learnpress_discord_redirect_page_id', $ets_learnpress_discord_redirect_url );					
+					$ets_learnpress_discord_redirect_url = ets_get_learnpress_discord_formated_discord_redirect_url( $ets_learnpress_discord_redirect_url );
+					update_option( 'ets_learnpress_discord_redirect_url', $ets_learnpress_discord_redirect_url );
+                                        
+				}
+
+				if ( $ets_learnpress_discord_server_id ) {
+					update_option( 'ets_learnpress_discord_server_id', $ets_learnpress_discord_server_id );
+				}
+
+				$message = 'Your settings are saved successfully.';
+				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+					
+					
+					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learnpress_application_details';
+					wp_safe_redirect( $pre_location );
+				}
+			}
+		}
+	}
+       
+	/**
+	 * Load discord roles from server
+	 *
+	 * @return OBJECT REST API response
+	 */
+	public function ets_learnpress_discord_load_discord_roles() {
+
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_learnpress_discord_nonce'], 'ets-learnpress-discord-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		$user_id = get_current_user_id();
+
+		$guild_id          = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_server_id' ) ) );
+		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_bot_token' ) ) );
+		if ( $guild_id && $discord_bot_token ) {
+			$discod_server_roles_api = LEARNPRESS_DISCORD_API_URL . 'guilds/' . $guild_id . '/roles';
+			$guild_args              = array(
+				'method'  => 'GET',
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bot ' . $discord_bot_token,
+				),
+			);
+			$guild_response          = wp_remote_post( $discod_server_roles_api, $guild_args );
+
+			//ets_learnpress_discord_log_api_response( $user_id, $discod_server_roles_api, $guild_args, $guild_response );
+
+			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
+
+			if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
+				if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
+									//Learnpress_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				} else {
+					$response_arr['previous_mapping'] = get_option( 'ets_learnpress_discord_role_mapping' );
+
+					$discord_roles = array();
+					foreach ( $response_arr as $key => $value ) {
+						$isbot = false;
+						if ( is_array( $value ) ) {
+							if ( array_key_exists( 'tags', $value ) ) {
+								if ( array_key_exists( 'bot_id', $value['tags'] ) ) {
+									$isbot = true;
+								}
+							}
+						}
+						if ( $key != 'previous_mapping' && $isbot == false && isset( $value['name'] ) && $value['name'] != '@everyone' ) {
+							$discord_roles[ $value['id'] ] = $value['name'];
+						}
+					}
+					update_option( 'ets_learnpress_discord_all_roles', serialize( $discord_roles ) );
+				}
+			}
+				return wp_send_json( $response_arr );
+		}
+
+				exit();
+
+	}
+        
+	/**
+	 * Save Role mapping settings
+	 *
+	 * @param NONE
+	 * @return NONE
+	 */
+	public function ets_learnpress_discord_save_role_mapping() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		$ets_discord_roles = isset( $_POST['ets_learnpress_discord_role_mapping'] ) ? sanitize_textarea_field( trim( $_POST['ets_learnpress_discord_role_mapping'] ) ) : '';
+
+		$ets_learnpress_discord_default_role_id = isset( $_POST['learnpress_defaultRole'] ) ? sanitize_textarea_field( trim( $_POST['learnpress_defaultRole'] ) ) : '';
+		$allow_none_student = isset( $_POST['allow_none_student'] ) ? sanitize_textarea_field( trim( $_POST['allow_none_student'] ) ) : '';
+		$ets_discord_roles   = stripslashes( $ets_discord_roles );
+		$save_mapping_status = update_option( 'ets_learnpress_discord_role_mapping', $ets_discord_roles );
+		if ( isset( $_POST['ets_learnpress_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_learnpress_discord_role_mappings_nonce'], 'learnpress_discord_role_mappings_nonce' ) ) {
+			if ( ( $save_mapping_status || isset( $_POST['ets_learnpress_discord_role_mapping'] ) ) && ! isset( $_POST['flush'] ) ) {
+				if ( $ets_learnpress_discord_default_role_id ) {
+					update_option( 'ets_learnpress_discord_default_role_id', $ets_learnpress_discord_default_role_id );
+				}
+				if ( $allow_none_student ) {
+					update_option( 'ets_learnpress_discord_allow_none_student', $allow_none_student );
+				}                                
+
+				$message = 'Your mappings are saved successfully.';
+			}
+			if ( isset( $_POST['flush'] ) ) {
+				delete_option( 'ets_learnpress_discord_role_mapping' );
+				delete_option( 'ets_learnpress_discord_default_role_id' );
+
+				$message = 'Your settings flushed successfully.';
+			}
+			$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learnpress_discord_role_mapping';
+			wp_safe_redirect( $pre_location );
+		}
+	}        
 
 }
