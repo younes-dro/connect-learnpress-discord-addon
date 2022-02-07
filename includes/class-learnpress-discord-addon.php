@@ -99,6 +99,13 @@ class Learnpress_Discord_Addon {
 	 */
 	private function load_dependencies() {
             
+
+		/**
+		 * The class responsible for Logs
+		 * core plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learnpress-discord-add-on-logs.php';            
+
 		/**
 		 * Common functions file.
 		 * core plugin.

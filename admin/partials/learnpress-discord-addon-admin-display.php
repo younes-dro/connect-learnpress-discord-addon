@@ -55,7 +55,7 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_advanced.php'; ?>
 				</div>
 				<div id='ets_learnpress_discord_logs' class="learnpress-discord-tab-conetent skltbs-panel">
-				<?php //require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_error_log.php'; ?>
+				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_error_log.php'; ?>
 				</div>                            
 			</div>  
 		</div>
