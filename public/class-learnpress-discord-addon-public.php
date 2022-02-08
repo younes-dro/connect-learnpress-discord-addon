@@ -100,4 +100,29 @@ class Learnpress_Discord_Addon_Public {
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @since    1.0.0
+	 */
+	public function ets_learnpress_discord_add_connect_discord_button( $tabs ) {
+		if( function_exists('LP') ){
+			$settings = LP()->settings;
+			$profile = LP_Profile::instance();
+			$user    = $profile->get_user();
+			$role    = $user->get_role();
+
+		if( $role == 'user' ){
+
+			$tabs['reptro_custom'] = array(
+				'title'    => esc_html__( 'Discord', 'reptro' ),
+				'slug' => '',
+				'priority' => 50,
+                                'icon'     => '<i class="fab fa-discord"></i>',
+			);
+                }
+		}
+		return $tabs;
+
+	}
 }
