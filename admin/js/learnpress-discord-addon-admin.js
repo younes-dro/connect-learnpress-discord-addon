@@ -113,6 +113,11 @@ jQuery(function($){
 			}
 		});
                 
+		$('#learnpress-connect-discord-bot').click(function (e) {
+			e.preventDefault();
+			discordWindow = window.open($(this).attr('href'), "", "height=650,width=500");
+ 
+		});
 		/*Clear log log call-back*/
 		$('#ets-learnpress-clrbtn').click(function (e) {
 			e.preventDefault();
