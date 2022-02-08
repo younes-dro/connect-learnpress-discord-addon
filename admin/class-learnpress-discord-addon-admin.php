@@ -183,6 +183,8 @@ class Learnpress_Discord_Addon_Admin {
                 $ets_learnpress_discord_redirect_page_id  = isset( $_POST['ets_learnpress_discord_redirect_page_id'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_redirect_page_id'] ) ) : '';
 
 		$ets_learnpress_discord_server_id = isset( $_POST['ets_learnpress_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_learnpress_discord_server_id'] ) ) : '';
+                
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                
 
 		if ( isset( $_POST['submit'] ) ) {
 			if ( isset( $_POST['ets_learnpress_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_learnpress_discord_save_settings'], 'save_learnpress_discord_general_settings' ) ) {
@@ -210,12 +212,12 @@ class Learnpress_Discord_Addon_Admin {
 				}
 
 				$message = 'Your settings are saved successfully.';
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+
 					
 					
-					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learnpress_application_details';
-					wp_safe_redirect( $pre_location );
-				}
+				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learnpress_application_details';
+				wp_safe_redirect( $pre_location );
+
 			}
 		}
 	}
@@ -300,6 +302,7 @@ class Learnpress_Discord_Addon_Admin {
 
 		$ets_learnpress_discord_default_role_id = isset( $_POST['learnpress_defaultRole'] ) ? sanitize_textarea_field( trim( $_POST['learnpress_defaultRole'] ) ) : '';
 		$allow_none_student = isset( $_POST['allow_none_student'] ) ? sanitize_textarea_field( trim( $_POST['allow_none_student'] ) ) : '';
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                
 		$ets_discord_roles   = stripslashes( $ets_discord_roles );
 		$save_mapping_status = update_option( 'ets_learnpress_discord_role_mapping', $ets_discord_roles );
 		if ( isset( $_POST['ets_learnpress_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_learnpress_discord_role_mappings_nonce'], 'learnpress_discord_role_mappings_nonce' ) ) {
@@ -319,7 +322,7 @@ class Learnpress_Discord_Addon_Admin {
 
 				$message = 'Your settings flushed successfully.';
 			}
-			$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learnpress_discord_role_mapping';
+			$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learnpress_discord_role_mapping';
 			wp_safe_redirect( $pre_location );
 		}
 	}
@@ -353,6 +356,7 @@ class Learnpress_Discord_Addon_Admin {
 			$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
 			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
 			$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+			$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                        
 
 		if ( isset( $_POST['ets_learnpress_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_learnpress_discord_advance_settings_nonce'], 'learnpress_discord_advance_settings_nonce' ) ) {
 			if ( isset( $_POST['adv_submit'] ) ) {
@@ -435,10 +439,10 @@ class Learnpress_Discord_Addon_Admin {
 				}
 
 				$message = 'Your settings are saved successfully.';
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-						$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learnpress_discord_advanced';
-						wp_safe_redirect( $pre_location );
-				}
+
+				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learnpress_discord_advanced';
+				wp_safe_redirect( $pre_location );
+
 			}
 		}
 

@@ -20,6 +20,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 ?>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
  <input type="hidden" name="action" value="learnpress_discord_save_advance_settings">
+ <input type="hidden" name="current_url" value="<?php echo ets_learnpress_discord_get_current_screen_url()?>">   
 <?php wp_nonce_field( 'learnpress_discord_advance_settings_nonce', 'ets_learnpress_discord_advance_settings_nonce' ); ?>
   <table class="form-table" role="presentation">
 	<tbody>
