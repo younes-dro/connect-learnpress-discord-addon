@@ -191,7 +191,9 @@ class Learnpress_Discord_Addon {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_filter( 'learn-press/profile-tabs', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button', 99, 1 );                
+//		$this->loader->add_filter( 'learn-press/profile-tabs', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button', 99, 1 );                
+//		$this->loader->add_filter( 'learn-press/before-profile-dashboard-user-general-statistic', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button', 10);                                                
+		$this->loader->add_filter( 'learn-press/user-profile-tabs', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button');                                
 
 	}
 

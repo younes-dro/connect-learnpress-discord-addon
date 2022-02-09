@@ -75,6 +75,34 @@ function learnpress_discord_check_saved_settings_status() {
 }
 
 /**
+ * Get student's courses ids
+ *
+ * @param INT $user_id
+ * @return ARRAY|NULL $curr_course_id
+ */
+function ets_learnpress_discord_get_student_courses_id( $user_id = 0 ) {
+    
+	global $wpdb;
+	$table_user_items = $wpdb->prefix . 'learnpress_user_items';
+
+	$list_courses = $wpdb->prepare( "SELECT item_id FROM `$table_user_items` WHERE user_id = %d", $user_id );
+	$user_courses = $wpdb->get_results( $list_courses , ARRAY_A );
+
+        
+	if ( $user_courses ) {  
+		$result = [];
+		foreach ($user_courses as $key => $course) {
+			array_push($result, $course['item_id']);
+		}
+		return $result;
+	} else {
+		return null;
+	}    
+
+}
+
+
+/**
  * Get current screen URL
  *
  * @param NONE
