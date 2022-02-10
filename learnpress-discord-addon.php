@@ -50,6 +50,24 @@ define( 'LEARNPRESS_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LEARNPRESS_DISCORD_BOT_PERMISSIONS', 8 );
 
 /**
+ * Discord api call scopes.
+ */
+define( 'LEARNPRESS_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming messages.read applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
+
+/**
+ * Define group name for action scheduler actions
+ */
+define( 'LEARNPRESS_DISCORD_AS_GROUP_NAME', 'ets-learnpress-discord' );
+/**
+ * Follwing response codes not cosider for re-try API calls.
+ */
+define( 'LEARNPRESS_DISCORD_DONOT_RETRY_THESE_API_CODES', array( 0, 10003, 50033, 10004, 50025, 10013, 10011 ) );
+
+/**
+ * Define plugin directory url
+ */
+define( 'LEARNPRESS_DISCORD_DONOT_RETRY_HTTP_CODES', array( 400, 401, 403, 404, 405, 502 ) );
+/**
  * Discord API url. 
  */
 define( 'LEARNPRESS_DISCORD_API_URL', 'https://discord.com/api/v6/' );
