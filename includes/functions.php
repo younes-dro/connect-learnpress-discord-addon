@@ -229,3 +229,54 @@ function ets_learnpress_discord_get_all_failed_actions(){
 		return false;
 	}        
 }
+/**
+ * Get formatted message to send in DM
+ *
+ * @param INT $user_id
+ * Merge fields: [LP_COURSES], [LP_STUDENT_NAME], [LD_STUDENT_EMAIL], [SITE_URL], [BLOG_NAME]
+ */
+function ets_learnpress_discord_get_formatted_dm( $user_id, $courses, $message ) {
+    
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );
+        
+	$args_courses = array(
+        'orderby'          => 'title',
+        'order'            => 'ASC',
+        'numberposts' => count($courses),
+        'post_type'   => 'lp_course',
+        'post__in' => $courses
+        );
+
+	$enrolled_courses = get_posts( $args_courses );
+	$COURSES = '';
+	$lastKeyCourse = array_key_last($enrolled_courses);
+	$commas = ', ';
+	foreach ($enrolled_courses as $key => $course) {
+            if ( $lastKeyCourse === $key )  
+                $commas = ' ' ;
+            $COURSES .= esc_html( $course->post_title ). $commas;
+	}
+
+
+		$find    = array(
+			'[LP_COURSES]',
+			'[LP_STUDENT_NAME]',
+			'[LP_STUDENT_EMAIL]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'
+		);
+		$replace = array(
+			$COURSES,                    
+			$STUDENT_USERNAME,
+			$STUDENT_EMAIL,
+			$SITE_URL,
+			$BLOG_NAME
+		);
+
+		return str_replace( $find, $replace, $message );
+
+}
