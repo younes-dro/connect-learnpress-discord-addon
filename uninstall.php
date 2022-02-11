@@ -32,7 +32,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 if ( defined( 'WP_UNINSTALL_PLUGIN' )
 		&& $_REQUEST['plugin'] == 'learnpress-discord-addon/learnpress-discord-addon.php'
-		&& $_REQUEST['slug'] == 'learnpress-discord-addon'
+		&& $_REQUEST['slug'] == 'learnpress-discord-add'
 	&& wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'updates' )
   ) {
 	global $wpdb;
