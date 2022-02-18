@@ -196,6 +196,8 @@ class Learnpress_Discord_Addon {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+    		$this->loader->add_action( 'wp_ajax_learnpress_disconnect_from_discord', $plugin_public, 'ets_learnpress_discord_disconnect_from_discord' );            
+		$this->loader->add_action( 'ets_learnpress_discord_as_schedule_delete_member', $plugin_public, 'ets_learnpress_discord_as_handler_delete_member_from_guild', 10, 3 );                
 //		$this->loader->add_filter( 'learn-press/profile-tabs', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button', 99, 1 );                
 //		$this->loader->add_filter( 'learn-press/before-profile-dashboard-user-general-statistic', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button', 10);                                                
 		$this->loader->add_filter( 'learn-press/user-profile-tabs', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button');

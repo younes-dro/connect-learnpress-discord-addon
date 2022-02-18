@@ -97,6 +97,12 @@ class Learnpress_Discord_Addon_Public {
 		 */
 
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learnpress-discord-addon-public.js', array( 'jquery' ), $this->version, false );
+		$script_params = array(
+			'admin_ajax'                       => admin_url( 'admin-ajax.php' ),
+			'permissions_const'                => LEARNPRESS_DISCORD_BOT_PERMISSIONS,
+			'ets_learnpress_discord_nonce' => wp_create_nonce( 'ets-learnpress-ajax-nonce' ),
+		);
+		wp_localize_script( $this->plugin_name, 'etsLearnPressParams', $script_params );                
 
 	}
 
@@ -198,8 +204,111 @@ class Learnpress_Discord_Addon_Public {
                 
                 echo $restrictcontent_discord ;
         }
+        
+	/**
+	 * Disconnect user from discord, and , if the case, kick students on disconnect
+	 *
+	 * @param NONE
+	 * @return OBJECT JSON response
+	 */
+	public function ets_learnpress_discord_disconnect_from_discord() {
+            
+
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( 'Unauthorized user', 401 );
+			exit();
+		}
+
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_learnpress_discord_nonce'], 'ets-learnpress-ajax-nonce' ) ) {
+				wp_send_json_error( 'You do not have sufficient rights', 403 );
+				exit();
+		}
+		$user_id = sanitize_text_field( trim( $_POST['user_id'] ) );
+		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_kick_upon_disconnect' ) ) );
+		if ( $user_id ) {
+			delete_user_meta( $user_id, '_ets_learnpress_discord_access_token' );
+			delete_user_meta( $user_id, '_ets_learnpress_discord_refresh_token' );                        			
+                        
+			if( $kick_upon_disconnect != true ){
+				$this->delete_member_from_guild( $user_id, false );                            
+                        }
+		}
+		$event_res = array(
+			'status'  => 1,
+			'message' => 'Successfully disconnected',
+		);
+		wp_send_json( $event_res );
+	}
 
 	/**
+	 * Schedule delete existing user from guild
+	 *
+	 * @param INT  $user_id
+	 * @param BOOL $is_schedule
+	 * @param NONE
+	 */
+	public function delete_member_from_guild( $user_id, $is_schedule = true ) {
+		if ( $is_schedule && isset( $user_id ) ) {
+
+			as_schedule_single_action( ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_schedule_delete_member', array( $user_id, $is_schedule ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
+		} else {
+			if ( isset( $user_id ) ) {
+				$this->ets_learnpress_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule );
+			}
+		}
+	}
+	/**
+	 * AS Handling member delete from huild
+	 *
+	 * @param INT  $user_id
+	 * @param BOOL $is_schedule
+	 * @return OBJECT API response
+	 */
+	public function ets_learnpress_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule ) {
+		$guild_id                            = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_server_id' ) ) );
+		$discord_bot_token                   = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_bot_token' ) ) );
+		$_ets_learnpress_discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_user_id', true ) ) );
+		$guilds_delete_memeber_api_url       = LEARNPRESS_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learnpress_discord_user_id;
+		$guild_args                          = array(
+			'method'  => 'DELETE',
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bot ' . $discord_bot_token,
+			),
+		);
+		$guild_response                      = wp_remote_post( $guilds_delete_memeber_api_url, $guild_args );
+
+		ets_learnpress_discord_log_api_response( $user_id, $guilds_delete_memeber_api_url, $guild_args, $guild_response );
+		if ( ets_learnpress_discord_check_api_errors( $guild_response ) ) {
+			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
+			LearnPress_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+			if ( $is_schedule ) {
+				//this exception should be catch by action scheduler.
+				throw new Exception( 'Failed in function ets_learnpress_discord_as_handler_delete_member_from_guild' );
+			}
+		}
+                
+                
+		$enrolled_courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
+
+		/*Delete all usermeta related to discord connection*/
+		delete_user_meta( $user_id, '_ets_learnpress_discord_user_id' );
+		delete_user_meta( $user_id, '_ets_learnpress_discord_access_token' );
+		delete_user_meta( $user_id, '_ets_learnpress_discord_refresh_token' );
+		delete_user_meta( $user_id, '_ets_learnpress_discord_role_id' );
+                
+		foreach( $enrolled_courses as $course_id ){
+                    delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id );
+		}
+              
+		delete_user_meta( $user_id, '_ets_learnpress_discord_username' );
+		delete_user_meta( $user_id, '_ets_learnpress_discord_expires_in' );
+		delete_user_meta( $user_id, '_ets_learnpress_discord_join_date' );                
+		delete_user_meta( $user_id, '_ets_learnpress_discord_dm_channel' );                
+
+	}        
+        /**
 	 * For authorization process call discord API
 	 *
 	 * @param NONE
