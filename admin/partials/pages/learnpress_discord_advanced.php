@@ -23,15 +23,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
  <input type="hidden" name="current_url" value="<?php echo ets_learnpress_discord_get_current_screen_url()?>">   
 <?php wp_nonce_field( 'learnpress_discord_advance_settings_nonce', 'ets_learnpress_discord_advance_settings_nonce' ); ?>
   <table class="form-table" role="presentation">
-	<tbody>
-	<tr>
-		<th scope="row"><?php echo __( 'Shortcode:', 'learnpress-discord-addon' ); ?></th>
-		<td> <fieldset>
-		[learnpress_discord]
-		<br/>
-		<small><?php echo __( 'Use this shortcode [learnpress_discord] to display connect to discord button on any page.', 'learnpress-discord-addon' ); ?></small>
-		</fieldset></td>
-	</tr>            
+	<tbody>            
 	<tr>
 		<th scope="row"><?php echo __( 'Send welcome message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
