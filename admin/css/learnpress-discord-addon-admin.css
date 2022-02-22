@@ -489,3 +489,8 @@ select#defaultRole{
   color: #2ca450;
 }
 div#ets_learnpress_discord_advanced textarea{height:130px;}
+p.redirect-url{
+    /* border: 1px solid; */
+    padding: 10px 10px;
+    background-color: #fafafa;    
+}

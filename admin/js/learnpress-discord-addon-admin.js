@@ -30,7 +30,7 @@ jQuery(function($){
 	 */
         
         if (etsLearnPressParams.is_admin) {
-            $('#ets_learnpress_discord_redirect_url').select2({});
+		$('#ets_learnpress_discord_redirect_url').select2({});
 
 		/*Load all roles from discord server*/
 		$.ajax({
@@ -281,6 +281,12 @@ jQuery(function($){
 			makeDrag($('.makeMeDraggable'));
 			newClone.css({ 'width': '100%', 'left': '0', 'top': '0', 'margin-bottom': '0px', 'position':'unset', 'order': '1' });
 		}
+
+		$(document.body).on('change', '#ets_learnpress_discord_redirect_url', function(e){
+			var page_url = $(this).find(':selected').data('page-url');
+                        $('p.redirect-url').html('<b>'+page_url+'</b>');
+		});                
+                
 	}
         
 
