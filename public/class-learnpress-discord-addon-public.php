@@ -41,6 +41,15 @@ class Learnpress_Discord_Addon_Public {
 	private $version;
 
 	/**
+	 * The single object Learnpress_Discord_Public
+	 * 
+	 * @since    1.0.0 
+	 * @access   private 
+	 * @var Learnpress_Discord_Public 
+	 */
+	private static $instance;        
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -52,6 +61,15 @@ class Learnpress_Discord_Addon_Public {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 
+	}
+
+	public static function get_learnpress_discord_public_instance( $plugin_name, $version ) {
+
+		if ( ! self::$instance ) {
+			self::$instance = new Learnpress_Discord_Addon_Public( $plugin_name, $version );
+
+		}
+		return self::$instance;
 	}
 
 	/**
@@ -775,5 +793,33 @@ class Learnpress_Discord_Addon_Public {
 			return $response;
 		}
 	}
+	public function ets_learnpress_discord_update_course_access( $user_id, $course_id ) {
+            
+		$ets_learnpress_discord_role_mapping = json_decode( get_option( 'ets_learnpress_discord_role_mapping' ), true );
+		$default_role                          = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_default_role_id' ) ) );                
+                
+		if ( is_array( $ets_learnpress_discord_role_mapping ) && array_key_exists( 'learnpress_course_id_' . $course_id, $ets_learnpress_discord_role_mapping ) ) {
+			$discord_role = sanitize_text_field( trim( $ets_learnpress_discord_role_mapping[ 'learnpress_course_id_' . $course_id ] ) );                            
+			if ( $discord_role && $discord_role != 'none' ) {
+				
+				$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
+				$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );
+				
+				if ( $access_token && $refresh_token ){
+                                    
 
+					update_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $discord_role );                                    
+					$this->put_discord_role_api( $user_id, $discord_role ); 
+		
+				}                                       
+			}                    
+		}
+		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
+			update_user_meta( $user_id, '_ets_learnpress_discord_last_default_role', $default_role );
+			$this->put_discord_role_api( $user_id, $default_role );
+		}else{
+			$default_role = sanitize_text_field( trim( get_user_meta(  $user_id, '_ets_learnpress_discord_last_default_role', true ) ) );
+			$this->delete_discord_role( $user_id, $default_role );   
+		}                
+	}
 }

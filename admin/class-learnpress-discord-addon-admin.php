@@ -41,17 +41,25 @@ class Learnpress_Discord_Addon_Admin {
 	private $version;
 
 	/**
+	 * Instance of Learnpress_Discord_Addon_Public class
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      Learnpress_Discord_Addon_Public
+	 */
+	private $learnpress_discord_public_instance; 
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $learnpress_discord_public_instance ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->learnpress_discord_public_instance = $learnpress_discord_public_instance;                
 	}
 
 	/**
@@ -445,6 +453,20 @@ class Learnpress_Discord_Addon_Admin {
 
 			}
 		}
+
+	}        
+	/**
+	 * 
+	 *
+	 * @since    1.0.0
+	 */        
+	public function ets_learnpress_discord_user_course_enrolled( $course_item_ref_id,$course_id,$user_get_id ){
+    
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		$this->learnpress_discord_public_instance->ets_learnpress_discord_update_course_access( $user_get_id, $course_id );                
 
 	}        
 
