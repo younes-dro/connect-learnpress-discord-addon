@@ -527,7 +527,7 @@ class Learnpress_Discord_Addon_Admin {
 		$last_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_last_default_role', true ) ) );                
 		$student_courses = ets_learnpress_discord_get_student_courses_id( $user_id );
                 
-		if ( $access_token && $refresh_token && is_array( $ets_learnpress_discord_role_mapping ) ){
+		if ( $access_token && $refresh_token && is_array( $ets_learnpress_discord_role_mapping ) && is_array( $student_courses ) ){
 			foreach ( $student_courses as $course_id ) {                    
 		
 			$student_role_for_course  = get_user_meta( $user_id,'_ets_learnpress_discord_role_id_for_' . $course_id , true);
@@ -541,7 +541,7 @@ class Learnpress_Discord_Addon_Admin {
 
 				// Remove $student_role_for_course
 				$old_role = $student_role_for_course;
-				delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $old_role ); 
+				delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $old_role );
 				$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $old_role );
                             
 				// Assign $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id]
@@ -586,7 +586,7 @@ class Learnpress_Discord_Addon_Admin {
         }
 
 	/**
-	 * Display Disconnect Discord button
+	 * Display Disconnect Discord button Profile User Page
 	 *
 	 */        
 	public function ets_learnpress_discord_disconnect_user_button(  ) {
@@ -604,7 +604,7 @@ class Learnpress_Discord_Addon_Admin {
 		}          
 	}
 	/**
-	 * Display Run API button
+	 * Run disconnect discord
 	 * 
 	 * 
 	 */        
@@ -621,19 +621,54 @@ class Learnpress_Discord_Addon_Admin {
 		}                
 		$user_id              = sanitize_text_field( trim( $_POST['ets_learnpress_discord_user_id'] ) );
 		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_kick_upon_disconnect' ) ) );
-		if ( $user_id ) {
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
+		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );                
+		if ( $user_id && $access_token && $refresh_token ) {
 			delete_user_meta( $user_id, '_ets_learnpress_discord_access_token' );
 			delete_user_meta( $user_id, '_ets_learnpress_discord_refresh_token' );
 
 			if ( $kick_upon_disconnect != true ) {
 				$this->learnpress_discord_public_instance->delete_member_from_guild( $user_id, false );
 			}
+			$event_res = array(
+				'status'  => 1,
+				'message' => 'Successfully disconnected',
+			);
+			wp_send_json( $event_res );
+                	exit();                        
 		}
-		$event_res = array(
-			'status'  => 1,
-			'message' => 'Successfully disconnected',
-		);
-		wp_send_json( $event_res );
-                exit();
+		
+                exit();                                        
+                
+	}
+	/**
+	 * Add learnpress Discord Connection column to WP Users listing 
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_learnpress_discord_add_learnpress_disconnect_discord_column( $columns ) {
+            
+		$columns['ets_learnpress_disconnect_discord_connection'] = esc_html__( 'Discord Connection', 'learnpress-discord-addon' );
+		return $columns;            
+        }
+
+	/**
+	 * Display Run API button
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_learnpress_discord_disconnect_discord_button( $value, $column_name, $user_id ) {
+           
+		if ( $column_name === 'ets_learnpress_disconnect_discord_connection' ){
+		
+			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
+			if ( $access_token  ){
+				return '<button  data-user-id="' . $user_id  . '" class="disconnect-discord-user" >' . esc_html__( 'Disconnect', 'learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+			}
+			return esc_html__( 'Not Connected', 'learnpress-discord-addon' );			
+		}
+		return $value;            
 	}        
 }

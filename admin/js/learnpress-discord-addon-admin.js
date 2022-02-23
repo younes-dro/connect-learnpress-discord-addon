@@ -183,6 +183,7 @@ jQuery(function($){
 			});
 		});
 		$('.disconnect-discord-user').click(function (e) {
+                    e.preventDefault();
 			$.ajax({
 				url: etsLearnPressParams.admin_ajax,
 				type: "POST",
