@@ -478,7 +478,7 @@ class Learnpress_Discord_Addon_Admin {
 	 */        
 	public function ets_learnpress_discord_add_learnpress_discord_column( $columns ) {
             
-		$columns['ets_learnpress_discord_api'] = esc_html__( 'learnPress Discord', 'learnpress-discord-addon' );
+		$columns['ets_learnpress_discord_api'] = esc_html__( 'LearnPress Discord', 'learnpress-discord-addon' );
 		return $columns;            
         }
 
