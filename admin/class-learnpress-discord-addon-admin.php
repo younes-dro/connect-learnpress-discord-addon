@@ -158,18 +158,18 @@ class Learnpress_Discord_Addon_Admin {
 	 */
 	public function ets_learnpress_discord_connect_to_bot() {
 
-		if ( current_user_can( 'administrator' ) && isset( $_GET['action'] ) && $_GET['action'] == 'learnpress-discord-connect-to-bot' ) {
-			$params                    = array(
-				'client_id'   => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_client_id' ) ) ),
-				'permissions' => LEARNPRESS_DISCORD_BOT_PERMISSIONS,
-				'scope'       => 'bot',
-				'guild_id'    => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_server_id' ) ) ),
-			);
-			$discord_authorise_api_url = LEARNPRESS_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
-
-			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
-			exit;
-		} 
+//		if ( current_user_can( 'administrator' ) && isset( $_GET['action'] ) && $_GET['action'] == 'learnpress-discord-connect-to-bot' ) {
+//			$params                    = array(
+//				'client_id'   => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_client_id' ) ) ),
+//				'permissions' => LEARNPRESS_DISCORD_BOT_PERMISSIONS,
+//				'scope'       => 'bot',
+//				'guild_id'    => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_server_id' ) ) ),
+//			);
+//			$discord_authorise_api_url = LEARNPRESS_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+//
+//			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
+//			exit;
+//		} 
         }
         
 	/*

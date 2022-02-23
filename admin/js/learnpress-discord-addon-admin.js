@@ -112,12 +112,19 @@ jQuery(function($){
 				$("#skeletabsTab1 .spinner").removeClass("is-active").css({ "float": "right", "display": "none" });
 			}
 		});
-                
-		$('#learnpress-connect-discord-bot').click(function (e) {
+                var discordWindow;
+		$('.learnpress-btn-connect-to-bot').click(function (e) {
 			e.preventDefault();
-			discordWindow = window.open($(this).attr('href'), "", "height=650,width=500");
+			discordWindow = window.open($(this).attr('href'), "", "height=650,width=500,directories=no,titlebar=no,toolbar=no,location=no,resizable=yes");
  
-		});
+		});    
+                 var queryString = window.location.search;
+                 var urlParams = new URLSearchParams(queryString);
+                 var via = urlParams.get('via');
+                 if( via == 'learnpress-discord-bot'){
+                     window.opener.location.reload();
+                     window.close();
+                 }                
 		/*Clear log log call-back*/
 		$('#ets-learnpress-clrbtn').click(function (e) {
 			e.preventDefault();
