@@ -183,6 +183,9 @@ class Learnpress_Discord_Addon {
 		$this->loader->add_action( 'admin_post_learnpress_discord_save_role_mapping', $plugin_admin, 'ets_learnpress_discord_save_role_mapping' );                
 		$this->loader->add_action( 'admin_post_learnpress_discord_save_advance_settings', $plugin_admin, 'ets_learnpress_discord_save_advance_settings' );                
 		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_run_api', $plugin_admin, 'ets_learnpress_discord_run_api' );                                
+		$this->loader->add_action( 'show_user_profile', $plugin_admin, 'ets_learnpress_discord_disconnect_user_button' , 99 );                                                
+		$this->loader->add_action( 'edit_user_profile', $plugin_admin, 'ets_learnpress_discord_disconnect_user_button' , 99 );  
+		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_disconnect_user', $plugin_admin, 'ets_learnpress_disconnect_user' );                                                
 //		$this->loader->add_action( 'learn_press_confirm_order', $plugin_admin, 'ets_learnpress_discord_confirm_order', 10, 1 );                                
 		$this->loader->add_action( 'learnpress/user/course-enrolled', $plugin_admin, 'ets_learnpress_discord_user_course_enrolled', 10, 3 );                                                
 

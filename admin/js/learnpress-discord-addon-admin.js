@@ -181,7 +181,33 @@ jQuery(function($){
 					$(this).siblings('span.spinner').removeClass("is-active").hide();
 				}
 			});
-		});               
+		});
+		$('.disconnect-discord-user').click(function (e) {
+			$.ajax({
+				url: etsLearnPressParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'ets_learnpress_discord_disconnect_user', 'ets_learnpress_discord_user_id': $(this).data('user-id') , 'ets_learnpress_discord_nonce': etsLearnPressParams.ets_learnpress_discord_nonce },
+				beforeSend: function () {
+                                    //
+				},
+				success: function (data) {         
+					if (data.error) {
+						// handle the error
+						alert(data.error.msg);
+					} else {
+                                            
+						console.log(data);
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+					//$(this).text('');
+				}
+			});
+		});                
 		/*Flush settings from local storage*/
 		$("#revertMapping").on('click', function () {
 			localStorage.removeItem('learnpress_mapArray');

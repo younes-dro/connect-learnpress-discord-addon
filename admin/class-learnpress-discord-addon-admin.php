@@ -584,4 +584,56 @@ class Learnpress_Discord_Addon_Admin {
 	exit();
            
         }
+
+	/**
+	 * Display Disconnect Discord button
+	 *
+	 */        
+	public function ets_learnpress_discord_disconnect_user_button(  ) {
+           
+		if (  current_user_can( 'administrator' ) ) {
+			wp_enqueue_script( $this->plugin_name );
+			$user_id = $_GET['user_id'];
+			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
+			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );                    
+			if( $access_token && $refresh_token ){
+				$DisConnect = '<h3>'.  esc_html__( 'LearnPress Discrod Add-On', 'learnpress-discord-addon' ).'</h3>';
+				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">'. esc_html__( 'Disconnect from discord', 'learnpress-discord-addon' ) .' <i class="fab fa-discord"></i></button>';                    
+				echo $DisConnect;
+			}    
+		}          
+	}
+	/**
+	 * Display Run API button
+	 * 
+	 * 
+	 */        
+	public function ets_learnpress_disconnect_user(  ) {
+           
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_learnpress_discord_nonce'], 'ets-learnpress-discord-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}                
+		$user_id              = sanitize_text_field( trim( $_POST['ets_learnpress_discord_user_id'] ) );
+		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_kick_upon_disconnect' ) ) );
+		if ( $user_id ) {
+			delete_user_meta( $user_id, '_ets_learnpress_discord_access_token' );
+			delete_user_meta( $user_id, '_ets_learnpress_discord_refresh_token' );
+
+			if ( $kick_upon_disconnect != true ) {
+				$this->learnpress_discord_public_instance->delete_member_from_guild( $user_id, false );
+			}
+		}
+		$event_res = array(
+			'status'  => 1,
+			'message' => 'Successfully disconnected',
+		);
+		wp_send_json( $event_res );
+                exit();
+	}        
 }
