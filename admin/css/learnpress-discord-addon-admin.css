@@ -152,6 +152,12 @@
 .ets-submit.ets-learnpress-bg-download{
   margin: 0 2px;
 }
+.ets-submit.ets-learnpress-bg-scheduled-actions{
+  margin: 0 2px;
+  text-align: center; 
+  margin: 0 2px;
+  min-width: 170px;  
+}
 .wp-core-ui .notice.is-dismissible.support-success-msg{
   position: fixed;
   top: 10%;

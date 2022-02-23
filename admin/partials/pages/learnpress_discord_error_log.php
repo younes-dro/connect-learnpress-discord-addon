@@ -22,4 +22,7 @@
 	<div class="form-group">
 		<a href="<?php echo esc_attr( content_url('/') . $filename ); ?>" class="ets-submit ets-learnpress-bg-download" download><?php echo __( 'Download', 'learnpress-discord-addon'  ); ?></a>
 	</div>
+	<div class="form-group">
+            <a href="<?php echo get_admin_url('', 'tools.php') . '?page=action-scheduler&status=pending&s=learnpress'; ?>" class="ets-submit ets-learnpress-bg-scheduled-actions"><?php echo __( 'Scheduled Actions', 'learnpress-discord-addon'  ); ?></a>
+	</div>    
 </div>
