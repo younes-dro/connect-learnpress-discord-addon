@@ -175,11 +175,14 @@ class Learnpress_Discord_Addon {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learnpress_discord_add_settings_menu' , 99 );
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learnpress_discord_add_learnpress_discord_column' );                                                                                
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learnpress_discord_run_learnpress_discord_api', 99, 3 );                                
 		$this->loader->add_action( 'admin_post_learnpress_discord_application_settings', $plugin_admin, 'ets_learnpress_discord_application_settings' );                
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_learnpress_discord_connect_to_bot' ); 
 		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_load_discord_roles', $plugin_admin, 'ets_learnpress_discord_load_discord_roles' );
 		$this->loader->add_action( 'admin_post_learnpress_discord_save_role_mapping', $plugin_admin, 'ets_learnpress_discord_save_role_mapping' );                
 		$this->loader->add_action( 'admin_post_learnpress_discord_save_advance_settings', $plugin_admin, 'ets_learnpress_discord_save_advance_settings' );                
+		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_run_api', $plugin_admin, 'ets_learnpress_discord_run_api' );                                
 //		$this->loader->add_action( 'learn_press_confirm_order', $plugin_admin, 'ets_learnpress_discord_confirm_order', 10, 1 );                                
 		$this->loader->add_action( 'learnpress/user/course-enrolled', $plugin_admin, 'ets_learnpress_discord_user_course_enrolled', 10, 3 );                                                
 

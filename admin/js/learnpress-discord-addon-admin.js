@@ -153,7 +153,35 @@ jQuery(function($){
 				}
 			});
 		});                
-               
+		/*RUN API */
+		$('.ets-learnpress-discord-run-api').click(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: etsLearnPressParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'ets_learnpress_discord_run_api', 'ets_learnpress_discord_user_id': $(this).data('user-id') , 'ets_learnpress_discord_nonce': etsLearnPressParams.ets_learnpress_discord_nonce },
+				beforeSend: function () {
+					$(this).siblings("div.run-api-success").html("");
+					$(this).siblings('span.spinner').addClass("is-active").show();
+				},
+				success: function (data) {         
+					if (data.error) {
+						// handle the error
+						alert(data.error.msg);
+					} else {
+                                            
+						$(this).siblings("div.run-api-success").html("Update Discord Roles Sucesssfully !");
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+					$(this).siblings('span.spinner').removeClass("is-active").hide();
+				}
+			});
+		});               
 		/*Flush settings from local storage*/
 		$("#revertMapping").on('click', function () {
 			localStorage.removeItem('learnpress_mapArray');
@@ -163,14 +191,18 @@ jQuery(function($){
    
 		/*Create droppable element*/
 		function init() {
-			$('.makeMeDroppable').droppable({
-				drop: handleDropEvent,
-				hoverClass: 'hoverActive',
-			});
-			$('.learnpress-discord-roles-col').droppable({
-				drop: handlePreviousDropEvent,
-				hoverClass: 'hoverActive',
-			});
+			if($('.makeMeDroppable').length){
+				$('.makeMeDroppable').droppable({
+					drop: handleDropEvent,
+					hoverClass: 'hoverActive',
+				});
+			}
+			if($('.learnpress-discord-roles-col').length){                        
+				$('.learnpress-discord-roles-col').droppable({
+					drop: handlePreviousDropEvent,
+					hoverClass: 'hoverActive',
+				});
+			}
 		}
 
 		$(init);
@@ -300,7 +332,9 @@ jQuery(function($){
 });
 if ( etsLearnPressParams.is_admin ) {
 	/*Tab options*/
-	jQuery.skeletabs.setDefaults({
-		keyboard: false
-	});
+	if( typeof(skeletabs) !=='undefined' ){
+		jQuery.skeletabs.setDefaults({
+			keyboard: false
+		});
+	}
 }

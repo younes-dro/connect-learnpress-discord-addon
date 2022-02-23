@@ -470,4 +470,118 @@ class Learnpress_Discord_Addon_Admin {
 
 	}        
 
+	/**
+	 * Add learnpress Discord column to WP Users listing 
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_learnpress_discord_add_learnpress_discord_column( $columns ) {
+            
+		$columns['ets_learnpress_discord_api'] = esc_html__( 'learnPress Discord', 'learnpress-discord-addon' );
+		return $columns;            
+        }
+
+	/**
+	 * Display Run API button
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_learnpress_discord_run_learnpress_discord_api( $value, $column_name, $user_id ) {
+           
+		if ( $column_name === 'ets_learnpress_discord_api' ){
+			wp_enqueue_script( $this->plugin_name );
+			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
+			if ( $access_token  ){
+				return '<a href="#" data-user-id="' . $user_id  . '" class="ets-learnpress-discord-run-api" >' . esc_html__( 'RUN API', 'learnpress-discord-addon' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';                            
+			}
+			return esc_html__( 'Not Connected', 'learnpress-discord-addon' );			
+		}
+		return $value;            
+	}
+	/**
+	 * Run API 
+	 *
+	 * 
+	 * @return NONE
+	 */        
+	public function ets_learnpress_discord_run_api(  ) {
+
+
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_learnpress_discord_nonce'], 'ets-learnpress-discord-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+                
+		$user_id = $_POST['ets_learnpress_discord_user_id'];
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
+		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );                
+		$ets_learnpress_discord_role_mapping = json_decode( get_option( 'ets_learnpress_discord_role_mapping' ), true );
+		$default_role                       = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_default_role_id' ) ) );
+		$last_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_last_default_role', true ) ) );                
+		$student_courses = ets_learnpress_discord_get_student_courses_id( $user_id );
+                
+		if ( $access_token && $refresh_token && is_array( $ets_learnpress_discord_role_mapping ) ){
+			foreach ( $student_courses as $course_id ) {                    
+		
+			$student_role_for_course  = get_user_meta( $user_id,'_ets_learnpress_discord_role_id_for_' . $course_id , true);
+                        
+			if( $student_role_for_course && array_key_exists( 'learnpress_course_id_' . $course_id, $ets_learnpress_discord_role_mapping ) ){
+                            
+				// Nothing to do;
+                    
+			}
+			if( $student_role_for_course && array_key_exists( 'learnpress_course_id_' . $course_id, $ets_learnpress_discord_role_mapping ) && $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id] != $student_role_for_course ){
+
+				// Remove $student_role_for_course
+				$old_role = $student_role_for_course;
+				delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $old_role ); 
+				$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $old_role );
+                            
+				// Assign $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id]
+				$new_role = $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id];
+				update_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $new_role );
+				$this->learnpress_discord_public_instance->put_discord_role_api( $user_id, $new_role ); 
+                    
+                        }                        
+
+			if( ! $student_role_for_course && array_key_exists( 'learnpress_course_id_' . $course_id, $ets_learnpress_discord_role_mapping ) ){
+			
+				$new_role = $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id];
+				update_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $new_role );
+				$this->learnpress_discord_public_instance->put_discord_role_api( $user_id, $new_role );                             
+			}
+
+			if ( $student_role_for_course && ! array_key_exists( 'learnpress_course_id_' . $course_id, $ets_learnpress_discord_role_mapping ) ){
+                            
+				$old_role = $student_role_for_course;
+				delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $old_role ); 
+				$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $old_role );                            
+			}
+                }
+
+
+		if ( $default_role && $default_role != 'none' && $default_role === $last_default_role ){
+                    //
+                    
+		}elseif ( $default_role && $default_role != 'none' && $default_role != $last_default_role  ) {
+                    
+			update_user_meta( $user_id, '_ets_learnpress_discord_last_default_role', $default_role );
+			$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $last_default_role );
+			$this->learnpress_discord_public_instance->put_discord_role_api( $user_id, $default_role );
+		}else{
+			
+			delete_user_meta( $user_id, '_ets_learnpress_discord_last_default_role' );
+			$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $last_default_role );   
+		}                
+	}        
+	exit();
+           
+        }
 }
