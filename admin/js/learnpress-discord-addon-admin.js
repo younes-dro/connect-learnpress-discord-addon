@@ -189,14 +189,14 @@ jQuery(function($){
 				context: this,
 				data: { 'action': 'ets_learnpress_discord_disconnect_user', 'ets_learnpress_discord_user_id': $(this).data('user-id') , 'ets_learnpress_discord_nonce': etsLearnPressParams.ets_learnpress_discord_nonce },
 				beforeSend: function () {
-                                    //
+                                    $(this).find('span').addClass("is-active").show();
 				},
 				success: function (data) {         
 					if (data.error) {
 						// handle the error
 						alert(data.error.msg);
 					} else {
-                                            
+						$(this).prop('disabled', true);
 						console.log(data);
 					}
 				},
@@ -204,7 +204,7 @@ jQuery(function($){
 					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
 				},
 				complete: function () {
-					//$(this).text('');
+					$(this).find('span').removeClass("is-active").hide();
 				}
 			});
 		});                

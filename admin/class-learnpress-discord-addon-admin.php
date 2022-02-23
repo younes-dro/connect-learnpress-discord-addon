@@ -593,14 +593,14 @@ class Learnpress_Discord_Addon_Admin {
            
 		if (  current_user_can( 'administrator' ) ) {
 			wp_enqueue_script( $this->plugin_name );
-			$user_id = $_GET['user_id'];
+			$user_id =  ( isset( $_GET['user_id'] ) ) ? $_GET['user_id'] : get_current_user_id() ;
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
 			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );                    
 			if( $access_token && $refresh_token ){
 				$DisConnect = '<h3>'.  esc_html__( 'LearnPress Discrod Add-On', 'learnpress-discord-addon' ).'</h3>';
-				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">'. esc_html__( 'Disconnect from discord', 'learnpress-discord-addon' ) .' <i class="fab fa-discord"></i></button>';                    
+				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">'. esc_html__( 'Disconnect from discord', 'learnpress-discord-addon' ) .' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
 				echo $DisConnect;
-			}    
+                        }   
 		}          
 	}
 	/**
