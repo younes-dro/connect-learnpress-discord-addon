@@ -242,24 +242,26 @@ function ets_learnpress_discord_get_formatted_dm( $user_id, $courses, $message )
 	$STUDENT_EMAIL    = $user_obj->user_email;
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
-        
-	$args_courses = array(
-        'orderby'          => 'title',
-        'order'            => 'ASC',
-        'numberposts' => count($courses),
-        'post_type'   => 'lp_course',
-        'post__in' => $courses
-        );
+	$COURSES = '';        
+	if ( is_array( $courses ) ){
+		$args_courses = array(
+		'orderby'          => 'title',
+		'order'            => 'ASC',
+		'numberposts' => count( $courses ),
+		'post_type'   => 'lp_course',
+		'post__in' => $courses
+		);
 
-	$enrolled_courses = get_posts( $args_courses );
-	$COURSES = '';
-	$lastKeyCourse = array_key_last($enrolled_courses);
-	$commas = ', ';
-	foreach ($enrolled_courses as $key => $course) {
-            if ( $lastKeyCourse === $key )  
-                $commas = ' ' ;
-            $COURSES .= esc_html( $course->post_title ). $commas;
-	}
+		$enrolled_courses = get_posts( $args_courses );
+		$lastKeyCourse = array_key_last($enrolled_courses);
+		$commas = ', ';
+		foreach ( $enrolled_courses as $key => $course ) {
+			if ( $lastKeyCourse === $key )  
+				$commas = ' ' ;
+				$COURSES .= esc_html( $course->post_title ). $commas;
+		}            
+        }
+
 
 
 		$find    = array(
