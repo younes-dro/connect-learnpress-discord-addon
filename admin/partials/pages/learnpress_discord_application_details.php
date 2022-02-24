@@ -38,7 +38,7 @@ $ets_learnpress_discord_server_id     = sanitize_text_field( trim( get_option( '
         </div>  
 	<div class="ets-input-group">
 	  <label><?php echo __( 'Bot Token', 'learnpress-discord-addon' ); ?> :</label>
-		<input type="text" class="ets-input" name="ets_learnpress_discord_bot_token" value="<?php
+		<input type="password" class="ets-input" name="ets_learnpress_discord_bot_token" value="<?php
 		if ( isset( $ets_learnpress_discord_bot_token ) ) {
 			echo esc_attr( $ets_learnpress_discord_bot_token ); }
 		?>" required placeholder="Discord Bot Token">
