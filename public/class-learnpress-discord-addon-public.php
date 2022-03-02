@@ -380,13 +380,15 @@ class Learnpress_Discord_Addon_Public {
 							if ( is_array( $user_body ) && array_key_exists( 'id', $user_body ) ) {
 								$_ets_learnpress_discord_user_id = sanitize_text_field( trim( $user_body['id'] ) );
 								if ( $discord_exist_user_id === $_ets_learnpress_discord_user_id ) {
-																	$courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
-									foreach ( $courses as $course_id ) {
-										$_ets_learnpress_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id, true ) ) );
-										if ( ! empty( $_ets_learnpress_discord_role_id ) && $_ets_learnpress_discord_role_id != 'none' ) {
-											$this->delete_discord_role( $user_id, $_ets_learnpress_discord_role_id );
+									$courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
+									if( is_array( $courses ) ){                                                                        
+										foreach ( $courses as $course_id ) {
+											$_ets_learnpress_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id, true ) ) );
+											if ( ! empty( $_ets_learnpress_discord_role_id ) && $_ets_learnpress_discord_role_id != 'none' ) {
+												$this->delete_discord_role( $user_id, $_ets_learnpress_discord_role_id );
+											}
 										}
-									}
+                                                                        }
 								}
 								update_user_meta( $user_id, '_ets_learnpress_discord_user_id', $_ets_learnpress_discord_user_id );
 								$this->add_discord_member_in_guild( $_ets_learnpress_discord_user_id, $user_id, $access_token );

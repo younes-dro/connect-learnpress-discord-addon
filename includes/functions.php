@@ -25,12 +25,13 @@ function ets_learnpress_discord_pages_list( $ets_learnpress_discord_redirect_pag
        
    
     $options = '<option value="" disabled>-</option>';
-    foreach($pages as $page){ 
-        $selected = ( esc_attr( $page->ID ) === $ets_learnpress_discord_redirect_page_id  ) ? ' selected="selected"' : '';
-        $options .= '<option data-page-url="' . ets_get_learnpress_discord_formated_discord_redirect_url ( $page->ID ) .'" value="' . esc_attr( $page->ID ) . '" '. $selected .'> ' . $page->post_title . ' </option>';
-    }
-    
-    return $options;
+	if ( is_array( $pages ) ) {
+		foreach( $pages as $page ){ 
+			$selected = ( esc_attr( $page->ID ) === $ets_learnpress_discord_redirect_page_id  ) ? ' selected="selected"' : '';
+			$options .= '<option data-page-url="' . ets_get_learnpress_discord_formated_discord_redirect_url ( $page->ID ) .'" value="' . esc_attr( $page->ID ) . '" '. $selected .'> ' . $page->post_title . ' </option>';
+		}
+	}
+	return $options;
 }
 
 /**
@@ -90,10 +91,10 @@ function ets_learnpress_discord_get_student_courses_id( $user_id = 0 ) {
 	$user_courses = $wpdb->get_results( $list_courses , ARRAY_A );
 
         
-	if ( $user_courses ) {  
+	if ( is_array( $user_courses ) ) {  
 		$result = [];
-		foreach ($user_courses as $key => $course) {
-			array_push($result, $course['item_id']);
+		foreach ( $user_courses as $key => $course ) {
+			array_push( $result, $course['item_id'] );
 		}
 		return $result;
 	} else {

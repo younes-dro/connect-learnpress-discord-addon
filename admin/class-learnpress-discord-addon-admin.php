@@ -580,13 +580,13 @@ class Learnpress_Discord_Addon_Admin {
                             update_user_meta( $user_id, '_ets_learnpress_discord_last_default_role', $default_role );
                             $this->learnpress_discord_public_instance->delete_discord_role( $user_id, $last_default_role );
                             $this->learnpress_discord_public_instance->put_discord_role_api( $user_id, $default_role );
-                            update_option('runapi_5', $last_default_role);
-                            update_option('runapi_6', $default_role);
+                            update_option('runapi_5_'.$last_default_role, $last_default_role);
+                            update_option('runapi_6_'.$default_role, $default_role);
                     }else{
 
                             delete_user_meta( $user_id, '_ets_learnpress_discord_last_default_role' );
                             $this->learnpress_discord_public_instance->delete_discord_role( $user_id, $last_default_role );
-                            update_option('runapi_7', $last_default_role);
+                            update_option('runapi_7_'.$last_default_role, $last_default_role);
                     }                    
  		}                       
         
@@ -658,7 +658,7 @@ class Learnpress_Discord_Addon_Admin {
 	 */        
 	public function ets_learnpress_discord_add_learnpress_disconnect_discord_column( $columns ) {
             
-		$columns['ets_learnpress_disconnect_discord_connection'] = esc_html__( 'Discord Connection', 'learnpress-discord-addon' );
+		$columns['ets_learnpress_disconnect_discord_connection'] = esc_html__( 'LP Discord Connection', 'learnpress-discord-addon' );
 		return $columns;            
         }
 
