@@ -218,7 +218,10 @@ class Learnpress_Discord_Addon_Admin {
 				if ( $ets_learnpress_discord_server_id ) {
 					update_option( 'ets_learnpress_discord_server_id', $ets_learnpress_discord_server_id );
 				}
-
+				/**
+                                 * Call function to save bot name option 
+				 */
+				ets_learnpress_discord_update_bot_name_option();
 				$message = 'Your settings are saved successfully.';
 
 					

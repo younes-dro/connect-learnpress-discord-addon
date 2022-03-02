@@ -5,6 +5,7 @@ $ets_learnpress_discord_bot_token     = sanitize_text_field( trim( get_option( '
 $ets_learnpress_discord_redirect_url  = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_redirect_url' ) ) );
 $ets_learnpress_discord_redirect_page_id  = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_redirect_page_id' ) ) );
 $ets_learnpress_discord_server_id     = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_server_id' ) ) );
+$ets_learnpress_discord_connected_bot_name     = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_connected_bot_name' ) ) );
 ?>
 <form method="post" action="<?php echo get_site_url() . '/wp-admin/admin-post.php'; ?>">
   <input type="hidden" name="action" value="learnpress_discord_application_settings">
@@ -37,6 +38,11 @@ $ets_learnpress_discord_server_id     = sanitize_text_field( trim( get_option( '
             <input type="text" class="ets-input" value="<?php echo get_admin_url('', 'admin.php').'?page=learnpress-discord-settings&via=learnpress-discord-bot'; ?>" disabled="" />
         </div>  
 	<div class="ets-input-group">
+            <?php
+            if ( isset( $ets_learnpress_discord_connected_bot_name ) && ! empty( $ets_learnpress_discord_connected_bot_name ) ){
+                echo sprintf(__( '<p class="description">Make sure the Bot %1$s <span class="discord-bot"><b>BOT</b></span>have the high priority than the roles it has to manage. Open <a href="https://discord.com/channels/%2$s">Discord Server</a></p>', 'learnpress-discord-addon'), $ets_learnpress_discord_connected_bot_name, $ets_learnpress_discord_server_id );
+            }
+            ?>            
 	  <label><?php echo __( 'Bot Token', 'learnpress-discord-addon' ); ?> :</label>
 		<input type="password" class="ets-input" name="ets_learnpress_discord_bot_token" value="<?php
 		if ( isset( $ets_learnpress_discord_bot_token ) ) {
