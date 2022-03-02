@@ -607,10 +607,11 @@ class Learnpress_Discord_Addon_Admin {
 			wp_enqueue_script( $this->plugin_name );
 			$user_id =  ( isset( $_GET['user_id'] ) ) ? $_GET['user_id'] : get_current_user_id() ;
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
-			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );                    
+			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );
+			$_ets_learnpress_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_username', true ) ) );                                                
 			if( $access_token && $refresh_token ){
 				$DisConnect = '<h3>'.  esc_html__( 'LearnPress Discrod Add-On', 'learnpress-discord-addon' ).'</h3>';
-				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">'. esc_html__( 'Disconnect from discord', 'learnpress-discord-addon' ) .' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">'. esc_html__ ( sprintf( 'Disconnect from discord %s', $_ets_learnpress_discord_username ) , 'learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
 				echo $DisConnect;
                         }   
 		}          
@@ -676,8 +677,9 @@ class Learnpress_Discord_Addon_Admin {
 		if ( $column_name === 'ets_learnpress_disconnect_discord_connection' ){
 		
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
+			$_ets_learnpress_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_username', true ) ) );                                                                        
 			if ( $access_token  ){
-				return '<button  data-user-id="' . $user_id  . '" class="disconnect-discord-user" >' . esc_html__( 'Disconnect', 'learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+				return '<button  data-user-id="' . $user_id  . '" class="disconnect-discord-user" >' . esc_html__ ( sprintf( 'Disconnect from discord %s', $_ets_learnpress_discord_username ) , 'learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
 			}
 			return esc_html__( 'Not Connected', 'learnpress-discord-addon' );			
 		}
