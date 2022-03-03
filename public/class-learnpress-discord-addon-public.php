@@ -303,24 +303,8 @@ class Learnpress_Discord_Addon_Public {
 			}
 		}
 
-		$enrolled_courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
-
 		/*Delete all usermeta related to discord connection*/
-		delete_user_meta( $user_id, '_ets_learnpress_discord_user_id' );
-		delete_user_meta( $user_id, '_ets_learnpress_discord_access_token' );
-		delete_user_meta( $user_id, '_ets_learnpress_discord_refresh_token' );
-		delete_user_meta( $user_id, '_ets_learnpress_discord_role_id' );
-
-		if( is_array( $enrolled_courses ) ) { 
-			foreach ( $enrolled_courses as $course_id ) {
-					delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id );
-			}
-		}
-		delete_user_meta( $user_id, '_ets_learnpress_discord_username' );
-		delete_user_meta( $user_id, '_ets_learnpress_discord_expires_in' );
-		delete_user_meta( $user_id, '_ets_learnpress_discord_join_date' );
-		delete_user_meta( $user_id, '_ets_learnpress_discord_dm_channel' );
-		delete_user_meta( $user_id, '_ets_learnpress_discord_last_default_role' );                
+		ets_learnpress_discord_remove_usermeta( $user_id );
 
 	}
 		/**
