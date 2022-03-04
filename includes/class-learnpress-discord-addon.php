@@ -190,6 +190,9 @@ class Learnpress_Discord_Addon {
 		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_disconnect_user', $plugin_admin, 'ets_learnpress_disconnect_user' );                                                
 //		$this->loader->add_action( 'learn_press_confirm_order', $plugin_admin, 'ets_learnpress_discord_confirm_order', 10, 1 );                                
 		$this->loader->add_action( 'learnpress/user/course-enrolled', $plugin_admin, 'ets_learnpress_discord_user_course_enrolled', 10, 3 );                                                
+//		$this->loader->add_action( 'learn-press/deleted-order-item', $plugin_admin, 'ets_learnpress_discord_delete_order', 10, 2 );                                                                
+//		$th->loader->add_action( 'learn-press/before-delete-order-item', $plugin_admin, 'ets_learnpress_discord_delete_order_item', 10, 1 );  
+		$this->loader->add_action( 'before_delete_post', $plugin_admin, 'ets_learnpress_discord_delete_order' ,10 ,2 );                                                                
 
 	}
 

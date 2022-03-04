@@ -465,11 +465,13 @@ class Learnpress_Discord_Addon_Admin {
 	 */        
 	public function ets_learnpress_discord_user_course_enrolled( $course_item_ref_id,$course_id,$user_get_id ){
     
-		if ( ! current_user_can( 'administrator' ) ) {
+		if ( current_user_can( 'administrator' )  ||  is_user_logged_in()  ) {
+			$this->learnpress_discord_public_instance->ets_learnpress_discord_update_course_access( $user_get_id, $course_id );                                    
+
+		}else{
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
-			exit();
+			exit();                    
 		}
-		$this->learnpress_discord_public_instance->ets_learnpress_discord_update_course_access( $user_get_id, $course_id );                
 
 	}        
 
@@ -684,5 +686,17 @@ class Learnpress_Discord_Addon_Admin {
 			return esc_html__( 'Not Connected', 'learnpress-discord-addon' );			
 		}
 		return $value;            
-	}        
+	}
+        
+        public function ets_learnpress_discord_delete_order( $postid, $post ) {
+            
+            
+////            $order_courses = learn_press_get_course_by_order( $postid );
+               
+
+
+
+
+
+        }
 }
