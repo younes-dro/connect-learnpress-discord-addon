@@ -699,13 +699,25 @@ class Learnpress_Discord_Addon_Admin {
         
         public function ets_learnpress_discord_delete_order( $postid, $post ) {
             
-            
-////            $order_courses = learn_press_get_course_by_order( $postid );
-               
+		$order    = learn_press_get_order( $postid );
+		$user_id = $order->get_user( 'id' );
+		$access_token  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );            
+                if( $access_token ){
+			$order_items = $order->get_items();
+			if( is_array( $order_items ) && !empty( $order_items ) ){
+    
+				foreach ( $order_items as  $item ) {
+                            
+					$course_id = $item['course_id'];
+					$student_role_for_course  = get_user_meta( $user_id,'_ets_learnpress_discord_role_id_for_' . $course_id , true );
+					if( $student_role_for_course ){
+						delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $student_role_for_course );                                           
+						$this->learnpress_discord_public_instance->delete_discord_role( $user_id, $student_role_for_course );
+					}
+				}
+			}                    
+                    
+		}
 
-
-
-
-
-        }
+	}
 }
