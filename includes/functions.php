@@ -90,7 +90,7 @@ function ets_learnpress_discord_get_student_courses_id( $user_id = 0 ) {
 	$list_courses = $wpdb->prepare( "SELECT item_id FROM `$table_user_items` WHERE user_id = %d", $user_id );
 	$user_courses = $wpdb->get_results( $list_courses , ARRAY_A );
 
-        
+        update_option('coureses_user', $user_courses);
 	if ( is_array( $user_courses ) ) {  
 		$result = [];
 		foreach ( $user_courses as $key => $course ) {
@@ -323,4 +323,34 @@ function ets_learnpress_discord_remove_usermeta ( $user_id ){
 	$delete_usermeta_sql = $wpdb->prepare( $usermeta_sql, $user_id );
 	$wpdb->query( $delete_usermeta_sql );
              
+}
+/**
+ * Get student's roles ids
+ *
+ * @param INT $user_id
+ * @return ARRAY|NULL $roles
+ */
+function ets_learnpress_discord_get_user_roles ( $user_id ){
+	global $wpdb;
+
+	$usermeta_table = $wpdb->prefix . "usermeta";
+	$user_roles_sql = "SELECT * FROM " . $usermeta_table . " WHERE `user_id` = %d AND ( `meta_key` like '_ets_learnpress_discord_role_id_for_%' OR `meta_key` = 'ets_learnpress_discord_default_role_id' OR `meta_key` = '_ets_learnpress_discord_last_default_role' ); ";
+	$user_roles_prepare = $wpdb->prepare( $user_roles_sql, $user_id );
+	
+	$user_roles = $wpdb->get_results( $user_roles_prepare , ARRAY_A );
+        
+	if ( is_array( $user_roles ) && count( $user_roles ) ){
+		$roles = array();
+		foreach ( $user_roles as  $role ) {
+                
+			array_push( $roles, $role['meta_value'] );
+		}
+		
+                return $roles;
+            
+	}else{
+            
+		return null;
+	}
+   
 }

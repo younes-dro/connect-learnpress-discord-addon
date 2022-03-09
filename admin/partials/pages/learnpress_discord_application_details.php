@@ -75,7 +75,7 @@ $ets_learnpress_discord_connected_bot_name     = sanitize_text_field( trim( get_
 				'scope'         => 'bot',
                                	'permissions' => LEARNPRESS_DISCORD_BOT_PERMISSIONS,
                              	'guild_id'    => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_server_id' ) ) ),
-                             	'disable_guild_select' => true
+                             	'disable_guild_select' => 'true'
 				);
 			$discord_authorise_api_url = LEARNPRESS_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );            
             
