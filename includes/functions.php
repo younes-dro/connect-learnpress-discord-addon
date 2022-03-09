@@ -244,7 +244,7 @@ function ets_learnpress_discord_get_formatted_dm( $user_id, $courses, $message )
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
 	$COURSES = '';        
-	if ( is_array( $courses ) ){
+	if ( is_array( $courses ) && !empty( $courses ) ){
 		$args_courses = array(
 		'orderby'          => 'title',
 		'order'            => 'ASC',
