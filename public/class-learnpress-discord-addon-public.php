@@ -390,6 +390,84 @@ class Learnpress_Discord_Addon_Public {
 					}
 				}
 			}
+		} else {
+			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'learnpress-discord' ) {
+                                update_option('check_redirect_connect', $_GET );
+				$code     = sanitize_text_field( trim( $_GET['code'] ) );                            
+				$response = $this->create_discord_auth_token( $code, 'new_learnpress_student' );
+				if ( ! empty( $response ) && ! is_wp_error( $response ) ) {
+					$res_body = json_decode( wp_remote_retrieve_body( $response ), true );
+                                        update_option('check_res_body', $res_body );
+					if ( is_array( $res_body ) ) {
+						if ( array_key_exists( 'access_token', $res_body ) ) {
+							$access_token       = sanitize_text_field( trim( $res_body['access_token'] ) );
+							$user_body          = $this->get_discord_current_user( $access_token , 'new_learnpress_student' );
+                                                        update_option('check_user_body', $user_body );
+							$discord_user_email = $user_body['email'];
+							$password           = wp_generate_password( 12, true, false );
+                                                        update_option('check_user_email', $discord_user_email );
+							if ( email_exists( $discord_user_email ) ) {
+								$current_user = get_user_by( 'email', $discord_user_email );
+								$user_id      = $current_user->ID;
+							} else {
+								$user_id = wp_create_user( $discord_user_email, $password, $discord_user_email );
+								wp_new_user_notification( $user_id, null, $password );
+							}
+							update_user_meta( $user_id, '_ets_learnpress_discord_access_token', $access_token );
+                                                        $discord_exist_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_user_id', true ) ) );
+							if ( array_key_exists( 'refresh_token', $res_body ) ) {
+								$refresh_token = sanitize_text_field( trim( $res_body['refresh_token'] ) );
+								update_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', $refresh_token );
+							}
+							if ( array_key_exists( 'expires_in', $res_body ) ) {
+								$expires_in = $res_body['expires_in'];
+								$date       = new DateTime();
+								$date->add( DateInterval::createFromDateString( '' . $expires_in . ' seconds' ) );
+								$token_expiry_time = $date->getTimestamp();
+								update_user_meta( $user_id, '_ets_learnpress_discord_expires_in', $token_expiry_time );
+							}
+							
+
+							if ( is_array( $user_body ) && array_key_exists( 'discriminator', $user_body ) ) {
+								$discord_user_number           = $user_body['discriminator'];
+								$discord_user_name             = $user_body['username'];
+								$discord_user_name_with_number = $discord_user_name . '#' . $discord_user_number;
+								update_user_meta( $user_id, '_ets_learnpress_discord_username', $discord_user_name_with_number );
+							}
+							if ( is_array( $user_body ) && array_key_exists( 'id', $user_body ) ) {
+								$_ets_learnpress_discord_user_id = sanitize_text_field( trim( $user_body['id'] ) );
+								if ( $discord_exist_user_id === $_ets_learnpress_discord_user_id ) {
+									$courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
+									if ( is_array( $courses ) ) {
+										foreach ( $courses as $course_id ) {
+											$_ets_learnpress_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id, true ) ) );
+											if ( ! empty( $_ets_learnpress_discord_role_id ) && $_ets_learnpress_discord_role_id != 'none' ) {
+												$this->delete_discord_role( $user_id, $_ets_learnpress_discord_role_id );
+											}
+										}
+									}
+								}
+								update_user_meta( $user_id, '_ets_learnpress_discord_user_id', $_ets_learnpress_discord_user_id );
+								
+							
+                                                        
+							$credentials = array(
+								'user_login'    => $discord_user_email,
+								'user_password' => $password,
+							);
+							wp_set_auth_cookie( $user_id, false, '', '' );
+							wp_signon( $credentials, '' );
+							$discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_user_id', true ) ) );
+                                                        $this->add_discord_member_in_guild( $discord_user_id, $user_id, $access_token );                                                        
+							if ( $_COOKIE['ets_learnpress_current_location_storage'] ) {
+								wp_safe_redirect( urldecode_deep( $_COOKIE['ets_learnpress_current_location_storage'] ) );
+								exit();
+							}
+						}
+					}
+				}                                
+			}                  
+			}
 		}
 	}
 
@@ -402,8 +480,33 @@ class Learnpress_Discord_Addon_Public {
 	 */
 	public function create_discord_auth_token( $code, $user_id ) {
 		if ( ! is_user_logged_in() ) {
-			wp_send_json_error( 'Unauthorized user', 401 );
-			exit();
+			if( isset( $code ) && !empty( $code ) && $user_id == 'new_learnpress_student' ){
+				$discord_token_api_url = LEARNPRESS_DISCORD_API_URL . 'oauth2/token';
+				$params     = array(
+					'method'  => 'POST',
+					'headers' => array(
+						'Content-Type' => 'application/x-www-form-urlencoded',
+					),
+					'body'    => array(
+						'client_id'     => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_client_id' ) ) ),
+						'client_secret' => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_client_secret' ) ) ),
+						'grant_type'    => 'authorization_code',
+						'code'          => $code,
+						'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_redirect_url' ) ) ),
+					),
+				);
+				$response = wp_remote_post( $discord_token_api_url, $params );
+				ets_learnpress_discord_log_api_response( $user_id, $discord_token_api_url, $params, $response );
+				if ( ets_learnpress_discord_check_api_errors( $response ) ) {
+					$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
+					write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				}
+				return $response;                            
+                            
+			} else{                    
+				wp_send_json_error( 'Unauthorized user', 401 );
+				exit();
+			}
 		}
 		// stop users who having the direct URL of discord Oauth.
 		// We must check IF NONE Student is set to NO and user having no learnpress account.
@@ -474,10 +577,10 @@ class Learnpress_Discord_Addon_Public {
 	 * @return NONE
 	 */
 	public function add_discord_member_in_guild( $_ets_learnpress_discord_user_id, $user_id, $access_token ) {
-		if ( ! is_user_logged_in() ) {
-			wp_send_json_error( 'Unauthorized user', 401 );
-			exit();
-		}
+//		if ( ! is_user_logged_in() ) {
+//			wp_send_json_error( 'Unauthorized user', 401 );
+//			exit();
+//		}
 		$enrolled_courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
 		if ( $enrolled_courses !== null ) {
 			// It is possible that we may exhaust API rate limit while adding members to guild, so handling off the job to queue.
@@ -720,8 +823,8 @@ class Learnpress_Discord_Addon_Public {
 	 * @param STRING $access_token
 	 * @return OBJECT REST API response
 	 */
-	public function get_discord_current_user( $access_token ) {
-		if ( ! is_user_logged_in() ) {
+	public function get_discord_current_user( $access_token, $new_learnpress_student = '') {
+		if ( ! is_user_logged_in() && $new_learnpress_student == '' ) {
 			wp_send_json_error( 'Unauthorized user', 401 );
 			exit();
 		}
@@ -823,4 +926,76 @@ class Learnpress_Discord_Addon_Public {
 			}
 		}
 	}
+	public function ets_learnpress_discord_registration_form (){
+		global $cart;
+		$cart = learn_press_get_checkout_cart();
+		if ( ! is_user_logged_in() ) {
+			$cart_items = $cart->get_items();
+			$cart_courses = [];
+			if ( $cart_items ){
+				foreach ( $cart_items as $cart_item_key => $cart_item ) {
+					$cart_item = apply_filters( 'learn-press/review-order/cart-item', $cart_item );
+					$item_id   = $cart_item['item_id'];
+					array_push( $cart_courses, $item_id );
+				}
+			}
+			$current_location_url = ets_learnpress_discord_get_current_screen_url();
+			$default_role                       = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_default_role_id' ) ) );
+			$ets_learnpress_discord_role_mapping = json_decode( get_option( 'ets_learnpress_discord_role_mapping' ), true );
+			$all_roles                          = unserialize( get_option( 'ets_learnpress_discord_all_roles' ) );
+			$mapped_role_name                   = '';                        
+			$login_with_discord_button = '';
+			if ( is_array( $cart_courses ) && is_array( $all_roles ) ) {
+				$lastKey = array_key_last( $cart_courses );
+				$spacer  = ', ';
+				foreach ( $cart_courses as $key => $enrolled_course_id ) {
+					if ( is_array( $ets_learnpress_discord_role_mapping ) && array_key_exists( 'learnpress_course_id_' . $enrolled_course_id, $ets_learnpress_discord_role_mapping ) ) {
+
+						$mapped_role_id = $ets_learnpress_discord_role_mapping[ 'learnpress_course_id_' . $enrolled_course_id ];
+
+						if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+							if ( $lastKey === $key ) {
+								$spacer = '.';
+							}
+							$mapped_role_name .= $all_roles[ $mapped_role_id ] . $spacer;
+						}
+					}
+				}
+			}                    
+                                                
+			$default_role_name = '';
+			if ( is_array( $all_roles ) ) {
+				if ( $default_role != 'none' && array_key_exists( $default_role, $all_roles ) ) {
+					$default_role_name = $all_roles[ $default_role ];
+				}
+			}
+			$login_with_discord_button .= ets_learnpress_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $login_with_discord_button );
+                        
+			echo '<a href="?action=learnpress-discord-login&current-location=' . $current_location_url . '">' . esc_html( 'Login with Discord', 'learnpress-discord-addon' ) . '<i class="fab fa-discord"></i></a>';
+			echo $login_with_discord_button;
+		} 
+	}
+	public function ets_learnpress_discord_login_with_discord (){
+	
+		if ( isset( $_GET['action'] ) && $_GET['action'] == 'learnpress-discord-login' ) {
+			$params                    = array(
+				'client_id'     => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_client_id' ) ) ),
+				'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_learnpress_discord_redirect_url' ) ) ),
+				'response_type' => 'code',
+				'scope'         => 'identify email connections guilds guilds.join',
+			);
+			$discord_authorise_api_url = LEARNPRESS_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+			
+			if ( isset( $_GET['current-location'] ) ) {
+				setcookie( 'ets_learnpress_current_location_storage', $_GET['current-location'], time() + 300, '/' );
+			}
+                        
+			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
+                        
+			exit;
+		}        
+            
+            
+            
+	}        
 }
