@@ -934,10 +934,15 @@ class Learnpress_Discord_Addon_Public {
 	}
 	public function ets_learnpress_discord_registration_form (){
 		global $cart;
-		$cart = learn_press_get_checkout_cart();
+		
 		if ( ! is_user_logged_in() ) {
+			wp_enqueue_style( $this->plugin_name );
+			$cart = learn_press_get_checkout_cart();
 			$cart_items = $cart->get_items();
 			$cart_courses = [];
+			$ets_learnpress_discord_non_login_button_text = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_non_login_button_text' ) ) );
+                        $ets_learnpress_discord_connect_button_bg_color    = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_connect_button_bg_color' ) ) );
+                        $connect_btn_bg_color = 'style="background-color:' . $ets_learnpress_discord_connect_button_bg_color . '"'; 
 			if ( $cart_items ){
 				foreach ( $cart_items as $cart_item_key => $cart_item ) {
 					$cart_item = apply_filters( 'learn-press/review-order/cart-item', $cart_item );
@@ -977,7 +982,7 @@ class Learnpress_Discord_Addon_Public {
 			}
 			$login_with_discord_button .= ets_learnpress_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $login_with_discord_button );
                         
-			echo '<a href="?action=learnpress-discord-login&current-location=' . $current_location_url . '">' . esc_html( 'Login with Discord', 'learnpress-discord-addon' ) . '<i class="fab fa-discord"></i></a>';
+			echo '<a  class="learnpress-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' href="?action=learnpress-discord-login&current-location=' . $current_location_url . '">' . esc_html( $ets_learnpress_discord_non_login_button_text ) . ' <i class="fab fa-discord"></i></a>';
 			echo $login_with_discord_button;
 		} 
 	}
