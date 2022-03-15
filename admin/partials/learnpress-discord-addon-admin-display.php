@@ -37,6 +37,10 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				</button>
 				</li>
 				<li class="skltbs-tab-item">
+				<button class="skltbs-tab" data-identity="appearance" ><?php echo __( 'Appearance', 'learnpress-discord-addon' ); ?>	
+				</button>
+				</li>                                
+				<li class="skltbs-tab-item">
 				<button class="skltbs-tab" data-identity="logs" ><?php echo __( 'Logs', 'learnpress-discord-addon' ); ?>	
 				</button>
 				</li>                                
@@ -54,6 +58,9 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				<div id='ets_learnpress_discord_advanced' class="learnpress-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_advanced.php'; ?>
 				</div>
+				<div id='ets_learnpress_discord_appearance' class="learnpress-discord-tab-conetent skltbs-panel">
+				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_appearance.php'; ?>
+				</div>                            
 				<div id='ets_learnpress_discord_logs' class="learnpress-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_error_log.php'; ?>
 				</div>                            

@@ -138,7 +138,10 @@ class Learnpress_Discord_Addon_Public {
 		$access_token       = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
 		$_ets_learnpress_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_username', true ) ) );                
 		$allow_none_student = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_allow_none_student' ) ) );
-
+		$ets_learnpress_discord_connect_button_bg_color    = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_connect_button_bg_color' ) ) );
+		$ets_learnpress_discord_disconnect_button_bg_color = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_disconnect_button_bg_color' ) ) );                
+		$ets_learnpress_discord_disconnect_button_text = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_disconnect_button_text' ) ) );                
+		$ets_learnpress_discord_loggedin_button_text = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_loggedin_button_text' ) ) );
 		$default_role                        = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_default_role_id' ) ) );
 		$ets_learnpress_discord_role_mapping = json_decode( get_option( 'ets_learnpress_discord_role_mapping' ), true );
 		$all_roles                           = unserialize( get_option( 'ets_learnpress_discord_all_roles' ) );
@@ -170,13 +173,14 @@ class Learnpress_Discord_Addon_Public {
 		if ( learnpress_discord_check_saved_settings_status() ) {
 
 			if ( $access_token ) {
-
+				$disconnect_btn_bg_color = 'style="background-color:' . $ets_learnpress_discord_disconnect_button_bg_color . '"'; 
+                                
 				$restrictcontent_discord .= '<div class="learnpress-discord">';
 				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord                 .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</label>';
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord .= '<a href="#" class="ets-btn learnpress-discord-btn-disconnect" data-user-id="' . esc_attr( $user_id ) . '">' . esc_html__( 'Disconnect From Discord ', 'learnpress-discord-addon' ) . '<i class="fab fa-discord"></i> </a>';
+				$restrictcontent_discord .= '<a href="#" class="ets-btn learnpress-discord-btn-disconnect" ' . $disconnect_btn_bg_color . ' data-user-id="' . esc_attr( $user_id ) . '">' . esc_html__( $ets_learnpress_discord_disconnect_button_text ) . '<i class="fab fa-discord"></i> </a>';
 				$restrictcontent_discord .= '<p>' . esc_html__ ( sprintf( 'Connected account: %s', $_ets_learnpress_discord_username ) , 'learnpress-discord-addon' ) . '</p>';                                
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
 				$restrictcontent_discord .= '</div>';
@@ -185,11 +189,13 @@ class Learnpress_Discord_Addon_Public {
 			} elseif ( ( ets_learnpress_discord_get_student_courses_id( $user_id ) && $mapped_role_name )
 								|| ( ets_learnpress_discord_get_student_courses_id( $user_id ) && ! $mapped_role_name && $default_role_name )
 								|| ( $allow_none_student == 'yes' && $default_role_name ) ) {
+                            
+				$connect_btn_bg_color = 'style="background-color:' . $ets_learnpress_discord_connect_button_bg_color . '"'; 
 
 					$restrictcontent_discord .= '<div class="learnpress-discord">';
 				$restrictcontent_discord     .= '<h3>' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</h3>';
 					$restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord     .= '<a href="?action=learnpress-discord-login" class="learnpress-discord-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'learnpress-discord-addon' ) . '<i class="fab fa-discord"></i> </a>';
+				$restrictcontent_discord     .= '<a href="?action=learnpress-discord-login" class="learnpress-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' >' . $ets_learnpress_discord_loggedin_button_text . '<i class="fab fa-discord"></i> </a>';
 					$restrictcontent_discord .= '</div>';
 				if ( $mapped_role_name ) {
 					$restrictcontent_discord .= '<p class="ets_assigned_role">';

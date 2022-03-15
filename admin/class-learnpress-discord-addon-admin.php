@@ -139,13 +139,14 @@ class Learnpress_Discord_Addon_Admin {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
 		}
-                wp_enqueue_style( $this->plugin_name .'-select2' );                
-                wp_enqueue_style( $this->plugin_name . 'discord_tabs_css' );
-                wp_enqueue_style( $this->plugin_name );                
-                wp_enqueue_script( $this->plugin_name . '-select2' );
-                wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
-                wp_enqueue_script( $this->plugin_name );
-                wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_style( $this->plugin_name .'-select2' );                
+		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css' );
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_style( $this->plugin_name );                
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );  
                 
 		require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/learnpress-discord-addon-admin-display.php';                
@@ -457,7 +458,65 @@ class Learnpress_Discord_Addon_Admin {
 			}
 		}
 
-	}        
+	}
+	/**
+	 * Save appearance settings
+	 *
+	 * @param NONE
+	 * @return NONE
+	 */        
+	public function ets_learnpress_discord_save_appearance_settings() {
+
+		if ( ! current_user_can( 'administrator' ) || ! wp_verify_nonce( $_POST['ets_learnpress_discord_appearance_settings_nonce'], 'learnpress_discord_appearance_settings_nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}  
+		$ets_learnpress_discord_connect_button_bg_color = isset( $_POST['ets_learnpress_discord_connect_button_bg_color'] ) ? sanitize_textarea_field( trim( $_POST['ets_learnpress_discord_connect_button_bg_color'] ) ) : '';
+		$ets_learnpress_discord_disconnect_button_bg_color = isset( $_POST['ets_learnpress_discord_disconnect_button_bg_color'] ) ? sanitize_textarea_field( trim( $_POST['ets_learnpress_discord_disconnect_button_bg_color'] ) ) : '';                
+		$ets_learnpress_discord_loggedin_button_text = isset( $_POST['ets_learnpress_discord_loggedin_button_text'] ) ? sanitize_textarea_field( trim( $_POST['ets_learnpress_discord_loggedin_button_text'] ) ) : '';                                
+		$ets_learnpress_discord_non_login_button_text = isset( $_POST['ets_learnpress_discord_non_login_button_text'] ) ? sanitize_textarea_field( trim( $_POST['ets_learnpress_discord_non_login_button_text'] ) ) : '';                                                
+		$ets_learnpress_discord_disconnect_button_text = isset( $_POST['ets_learnpress_discord_disconnect_button_text'] ) ? sanitize_textarea_field( trim( $_POST['ets_learnpress_discord_disconnect_button_text'] ) ) : '';                                                                
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                                        
+
+		$ets_learnpress_discord_send_welcome_dm = isset( $_POST['ets_learnpress_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_learnpress_discord_send_welcome_dm'] ) ) : '';
+		if ( isset( $_POST['ets_learnpress_discord_appearance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_learnpress_discord_appearance_settings_nonce'], 'learnpress_discord_appearance_settings_nonce' ) ) {
+			if ( isset( $_POST['appearance_submit'] ) ) {
+
+				if ( isset( $_POST['ets_learnpress_discord_connect_button_bg_color'] ) ) {
+					update_option( 'ets_learnpress_discord_connect_button_bg_color', $ets_learnpress_discord_connect_button_bg_color );
+				} else {
+					update_option( 'ets_learnpress_discord_connect_button_bg_color', '' );
+				}
+				if ( isset( $_POST['ets_learnpress_discord_disconnect_button_bg_color'] ) ) {
+					update_option( 'ets_learnpress_discord_disconnect_button_bg_color', $ets_learnpress_discord_disconnect_button_bg_color );
+				} else {
+					update_option( 'ets_learnpress_discord_disconnect_button_bg_color', '' );
+				}                                
+				if ( isset( $_POST['ets_learnpress_discord_loggedin_button_text'] ) ) {
+					update_option( 'ets_learnpress_discord_loggedin_button_text', $ets_learnpress_discord_loggedin_button_text );
+				} else {
+					update_option( 'ets_learnpress_discord_loggedin_button_text', '' );
+				}
+				if ( isset( $_POST['ets_learnpress_discord_non_login_button_text'] ) ) {
+					update_option( 'ets_learnpress_discord_non_login_button_text', $ets_learnpress_discord_non_login_button_text );
+				} else {
+					update_option( 'ets_learnpress_discord_non_login_button_text', '' );
+				} 
+				if ( isset( $_POST['ets_learnpress_discord_disconnect_button_text'] ) ) {
+					update_option( 'ets_learnpress_discord_disconnect_button_text', $ets_learnpress_discord_disconnect_button_text );
+				} else {
+					update_option( 'ets_learnpress_discord_disconnect_button_text', '' );
+				}                                
+
+				$message = 'Your settings are saved successfully.';
+
+				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learnpress_discord_appearance';
+				wp_safe_redirect( $pre_location );
+
+			}
+		}
+
+	}         
 	/**
 	 * 
 	 *
@@ -496,6 +555,7 @@ class Learnpress_Discord_Addon_Admin {
 	public function ets_learnpress_discord_run_learnpress_discord_api( $value, $column_name, $user_id ) {
            
 		if ( $column_name === 'ets_learnpress_discord_api' ){
+                    	wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
 			wp_enqueue_script( $this->plugin_name );
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
 			if ( $access_token  ){
@@ -606,6 +666,7 @@ class Learnpress_Discord_Addon_Admin {
 	public function ets_learnpress_discord_disconnect_user_button(  ) {
            
 		if (  current_user_can( 'administrator' ) ) {
+                    	wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
 			wp_enqueue_script( $this->plugin_name );
 			$user_id =  ( isset( $_GET['user_id'] ) ) ? $_GET['user_id'] : get_current_user_id() ;
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );

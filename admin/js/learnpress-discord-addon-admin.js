@@ -1,4 +1,4 @@
-jQuery(function($){
+(function($){
 //	'use strict';
 
 	/**
@@ -352,16 +352,18 @@ jQuery(function($){
 			var page_url = $(this).find(':selected').data('page-url');
                         $('p.redirect-url').html('<b>'+page_url+'</b>');
 		});                
-                
+		$('#ets_learnpress_discord_connect_button_bg_color').wpColorPicker();
+		$('#ets_learnpress_discord_disconnect_button_bg_color').wpColorPicker();                
+	
 	}
-        
 
-});
-if ( etsLearnPressParams.is_admin ) {
 	/*Tab options*/
-	if( typeof(skeletabs) !=='undefined' ){
-		jQuery.skeletabs.setDefaults({
-			keyboard: false
-		});
-	}
-}
+
+		$.skeletabs.setDefaults({
+			keyboard: false,
+		});            
+	
+    
+})(jQuery);
+
+       

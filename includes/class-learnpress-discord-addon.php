@@ -184,6 +184,7 @@ class Learnpress_Discord_Addon {
 		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_load_discord_roles', $plugin_admin, 'ets_learnpress_discord_load_discord_roles' );
 		$this->loader->add_action( 'admin_post_learnpress_discord_save_role_mapping', $plugin_admin, 'ets_learnpress_discord_save_role_mapping' );                
 		$this->loader->add_action( 'admin_post_learnpress_discord_save_advance_settings', $plugin_admin, 'ets_learnpress_discord_save_advance_settings' );                
+		$this->loader->add_action( 'admin_post_learnpress_discord_save_appearance_settings', $plugin_admin, 'ets_learnpress_discord_save_appearance_settings' );                                
 		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_run_api', $plugin_admin, 'ets_learnpress_discord_run_api' );                                
 		$this->loader->add_action( 'show_user_profile', $plugin_admin, 'ets_learnpress_discord_disconnect_user_button' , 99 );                                                
 		$this->loader->add_action( 'edit_user_profile', $plugin_admin, 'ets_learnpress_discord_disconnect_user_button' , 99 );  
