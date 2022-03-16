@@ -760,6 +760,10 @@ class Learnpress_Discord_Addon_Admin {
         
         public function ets_learnpress_discord_delete_order( $postid, $post ) {
             
+		if( get_post_type( $postid ) !== 'lp_order' ){
+			return;
+		}
+            
 		$order    = learn_press_get_order( $postid );
 		$user_id = $order->get_user( 'id' );
 		$access_token  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );            
@@ -780,5 +784,33 @@ class Learnpress_Discord_Addon_Admin {
                     
 		}
 
+	}
+	public function ets_learnpress_discord_checkout_order_processed ( $order_id, $lp_checkout ){
+            
+		//$result = $lp_checkout->payment_method->process_payment( $order_id );
+                
+                //$result_process_payment = $result ['result'];
+                
+                //
+            
+	}
+	public function ets_learnpress_discord_order_status_changed ( $order_id, $old_status, $new_status ){
+            
+		// We will assign course mapped role and Welcome DB only after successful PAYMENT
+		if( $new_status == 'completed' ){
+                    
+			$order    = learn_press_get_order( $order_id );
+			$user_id = $order->get_user( 'id' );
+                	$order_items = $order->get_items();
+                	if( is_array( $order_items ) && !empty( $order_items ) ){
+    
+				foreach ( $order_items as  $item ) {
+                            
+					$course_id = $item['course_id'];
+					as_schedule_single_action( ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_send_dm', array( $user_id, array ( $course_id ), 'welcome' ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
+					$this->learnpress_discord_public_instance->ets_learnpress_discord_update_course_access( $user_id, $course_id );                                                                            
+				}
+			}
+		}
 	}
 }

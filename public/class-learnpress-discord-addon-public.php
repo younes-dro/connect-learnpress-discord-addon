@@ -442,17 +442,17 @@ class Learnpress_Discord_Addon_Public {
 							}
 							if ( is_array( $user_body ) && array_key_exists( 'id', $user_body ) ) {
 								$_ets_learnpress_discord_user_id = sanitize_text_field( trim( $user_body['id'] ) );
-								if ( $discord_exist_user_id === $_ets_learnpress_discord_user_id ) {
-									$courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
-									if ( is_array( $courses ) ) {
-										foreach ( $courses as $course_id ) {
-											$_ets_learnpress_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id, true ) ) );
-											if ( ! empty( $_ets_learnpress_discord_role_id ) && $_ets_learnpress_discord_role_id != 'none' ) {
-												$this->delete_discord_role( $user_id, $_ets_learnpress_discord_role_id );
-											}
-										}
-									}
-								}
+//								if ( $discord_exist_user_id === $_ets_learnpress_discord_user_id ) {
+//									$courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
+//									if ( is_array( $courses ) ) {
+//										foreach ( $courses as $course_id ) {
+//											$_ets_learnpress_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id, true ) ) );
+//											if ( ! empty( $_ets_learnpress_discord_role_id ) && $_ets_learnpress_discord_role_id != 'none' ) {
+//												$this->delete_discord_role( $user_id, $_ets_learnpress_discord_role_id );
+//											}
+//										}
+//									}
+//								}
 								update_user_meta( $user_id, '_ets_learnpress_discord_user_id', $_ets_learnpress_discord_user_id );
 								
 							
@@ -464,8 +464,12 @@ class Learnpress_Discord_Addon_Public {
 							wp_set_auth_cookie( $user_id, false, '', '' );
 							wp_signon( $credentials, '' );
 							$discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_user_id', true ) ) );
-                                                        $this->add_discord_member_in_guild( $discord_user_id, $user_id, $access_token );                                                        
-							if ( $_COOKIE['ets_learnpress_current_location_storage'] ) {
+							$allow_none_student = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_allow_none_student' ) ) );
+							if ( $allow_none_student == 'yes' ){
+								$this->add_discord_member_in_guild( $discord_user_id, $user_id, $access_token, true  );                                                        
+
+							}
+                                                        if ( $_COOKIE['ets_learnpress_current_location_storage'] ) {
 								wp_safe_redirect( urldecode_deep( $_COOKIE['ets_learnpress_current_location_storage'] ) );
 								exit();
 							}
@@ -582,7 +586,7 @@ class Learnpress_Discord_Addon_Public {
 	 * @param STRING $access_token
 	 * @return NONE
 	 */
-	public function add_discord_member_in_guild( $_ets_learnpress_discord_user_id, $user_id, $access_token ) {
+	public function add_discord_member_in_guild( $_ets_learnpress_discord_user_id, $user_id, $access_token, $new_learnpress_student = false ) {
 //		if ( ! is_user_logged_in() ) {
 //			wp_send_json_error( 'Unauthorized user', 401 );
 //			exit();
@@ -590,7 +594,7 @@ class Learnpress_Discord_Addon_Public {
 		$enrolled_courses = map_deep( ets_learnpress_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
 		if ( $enrolled_courses !== null ) {
 			// It is possible that we may exhaust API rate limit while adding members to guild, so handling off the job to queue.
-			as_schedule_single_action( ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_handle_add_member_to_guild', array( $_ets_learnpress_discord_user_id, $user_id, $access_token ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_handle_add_member_to_guild', array( $_ets_learnpress_discord_user_id, $user_id, $access_token, $new_learnpress_student ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
 		}
 	}
 	/**
@@ -601,7 +605,7 @@ class Learnpress_Discord_Addon_Public {
 	 * @param STRING $access_token
 	 * @return NONE
 	 */
-	public function ets_learnpress_discord_as_handler_add_member_to_guild( $_ets_learnpress_discord_user_id, $user_id, $access_token ) {
+	public function ets_learnpress_discord_as_handler_add_member_to_guild( $_ets_learnpress_discord_user_id, $user_id, $access_token, $new_learnpress_student = false ) {
 		// Since we using a queue to delay the API call, there may be a condition when a member is delete from DB. so put a check.
 		if ( get_userdata( $user_id ) === false ) {
 			return;
@@ -650,12 +654,13 @@ class Learnpress_Discord_Addon_Public {
 			// this should be catch by Action schedule failed action.
 			throw new Exception( 'Failed in function ets_learnpress_discord_as_handler_add_member_to_guild' );
 		}
+		if( $new_learnpress_student === false ){
+			foreach ( $discord_roles as $discord_role ) {
 
-		foreach ( $discord_roles as $discord_role ) {
+				if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
+					$this->put_discord_role_api( $user_id, $discord_role );
 
-			if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
-				$this->put_discord_role_api( $user_id, $discord_role );
-
+				}
 			}
 		}
 
