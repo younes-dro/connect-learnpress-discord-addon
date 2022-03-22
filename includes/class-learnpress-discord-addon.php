@@ -222,8 +222,9 @@ class Learnpress_Discord_Addon {
 		$this->loader->add_action( 'ets_learnpress_discord_as_send_dm', $plugin_public, 'ets_learnpress_discord_handler_send_dm', 10, 3 );                                
 		$this->loader->add_action( 'ets_learnpress_discord_as_schedule_member_put_role', $plugin_public, 'ets_learnpress_discord_as_handler_put_member_role', 10, 3 );                
 		$this->loader->add_action( 'ets_learnpress_discord_as_schedule_delete_role',  $plugin_public, 'ets_learnpress_discord_as_handler_delete_memberrole' , 10, 3 );                
-		$this->loader->add_action( 'learn-press/after-checkout-account-login-fields',  $plugin_public, 'ets_learnpress_discord_registration_form' , 99 );                                
-		$this->loader->add_action( 'template_redirect', $plugin_public, 'ets_learnpress_discord_login_with_discord' );                                                  
+//		$this->loader->add_action( 'learn-press/after-checkout-account-login-fields',  $plugin_public, 'ets_learnpress_discord_registration_form' , 99 );                                
+                $this->loader->add_action( 'learn-press/checkout-form',  $plugin_public, 'ets_learnpress_discord_registration_form' , 99 );                                                                                               
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'ets_learnpress_discord_login_with_discord' );
 	}
 
 	/**

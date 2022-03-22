@@ -987,8 +987,8 @@ class Learnpress_Discord_Addon_Public {
 			}
 			$login_with_discord_button .= ets_learnpress_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $login_with_discord_button );
                         
-			echo '<a  class="learnpress-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' href="?action=learnpress-discord-login&current-location=' . $current_location_url . '">' . esc_html( $ets_learnpress_discord_non_login_button_text ) . ' <i class="fab fa-discord"></i></a>';
-			echo $login_with_discord_button;
+			echo '<div style="display: inline-block;max-width: none;float: left;margin-bottom: 25px;"> <a  class="learnpress-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' href="?action=learnpress-discord-login&current-location=' . $current_location_url . '">' . esc_html( $ets_learnpress_discord_non_login_button_text ) . ' <i class="fab fa-discord"></i></a>';
+			echo $login_with_discord_button . '</div>';
 		} 
 	}
 	public function ets_learnpress_discord_login_with_discord (){
