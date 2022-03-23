@@ -608,13 +608,13 @@ class Learnpress_Discord_Addon_Admin {
                                     $old_role = $student_role_for_course;
                                     delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $old_role );
                                     $this->learnpress_discord_public_instance->delete_discord_role( $user_id, $old_role );
-                                    update_option('runapi_1_'.$course_id.'_'.$old_role.'_'.rand(), $old_role);
+                                    
 
                                     // Assign $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id]
                                     $new_role = $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id];
                                     update_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $new_role );
                                     $this->learnpress_discord_public_instance->put_discord_role_api( $user_id, $new_role );
-                                    update_option('runapi_2_'.$course_id.'_'.$new_role.'_'.rand(), $new_role);
+                                   
 
                             }                        
 
@@ -623,7 +623,7 @@ class Learnpress_Discord_Addon_Admin {
                                     $new_role = $ets_learnpress_discord_role_mapping['learnpress_course_id_' . $course_id];
                                     update_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $new_role );
                                     $this->learnpress_discord_public_instance->put_discord_role_api( $user_id, $new_role );
-                                    update_option('runapi_3_'.$course_id.'_'.$new_role.'_'.rand(), $new_role);
+                                    
                             }
 
                             if ( $student_role_for_course && ! array_key_exists( 'learnpress_course_id_' . $course_id, $ets_learnpress_discord_role_mapping ) ){
@@ -631,7 +631,7 @@ class Learnpress_Discord_Addon_Admin {
                                     $old_role = $student_role_for_course;
                                     delete_user_meta( $user_id, '_ets_learnpress_discord_role_id_for_' . $course_id , $old_role ); 
                                     $this->learnpress_discord_public_instance->delete_discord_role( $user_id, $old_role ); 
-                                    update_option('runapi_4_'.$course_id.'_'.$old_role.'_'.rand(), $old_role);
+                                    
                             }
 			}
 
@@ -645,13 +645,13 @@ class Learnpress_Discord_Addon_Admin {
                             update_user_meta( $user_id, '_ets_learnpress_discord_last_default_role', $default_role );
                             $this->learnpress_discord_public_instance->delete_discord_role( $user_id, $last_default_role );
                             $this->learnpress_discord_public_instance->put_discord_role_api( $user_id, $default_role );
-                            update_option('runapi_5_'.$last_default_role, $last_default_role);
-                            update_option('runapi_6_'.$default_role, $default_role);
+                            
+                          
                     }else{
 
                             delete_user_meta( $user_id, '_ets_learnpress_discord_last_default_role' );
                             $this->learnpress_discord_public_instance->delete_discord_role( $user_id, $last_default_role );
-                            update_option('runapi_7_'.$last_default_role, $last_default_role);
+                            
                     }                    
  		}                       
         
