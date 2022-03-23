@@ -63,3 +63,9 @@ a.learnpress-discord-btn-connect img{
     margin-left: 5px;
     
 }
+div.connect-with-discord-wrapper{
+    display: inline-block;
+    max-width: none;
+    float: left;
+    margin-bottom: 25px;   
+}
