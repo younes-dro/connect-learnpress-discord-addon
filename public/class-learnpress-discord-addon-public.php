@@ -183,6 +183,7 @@ class Learnpress_Discord_Addon_Public {
 				$restrictcontent_discord .= '<a href="#" class="ets-btn learnpress-discord-btn-disconnect" ' . $disconnect_btn_bg_color . ' data-user-id="' . esc_attr( $user_id ) . '">' . esc_html__( $ets_learnpress_discord_disconnect_button_text ) . '<i class="fab fa-discord"></i> </a>';
 				$restrictcontent_discord .= '<p>' . esc_html__ ( sprintf( 'Connected account: %s', $_ets_learnpress_discord_username ) , 'learnpress-discord-addon' ) . '</p>';                                
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
+				$restrictcontent_discord  = ets_learnpress_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );                                
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord .= '</div>';
 
@@ -193,32 +194,12 @@ class Learnpress_Discord_Addon_Public {
 				echo '<style>a.learnpress-discord-btn-connect{background-color: ' . $ets_learnpress_discord_connect_button_bg_color . '}</style>';
 
 				$restrictcontent_discord .= '<div class="learnpress-discord">';
-				$restrictcontent_discord     .= '<h3>' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</h3>';
+				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</h3>';
 				$restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord     .= '<a href="?action=learnpress-discord-login" class="learnpress-discord-btn-connect ets-btn" >' . $ets_learnpress_discord_loggedin_button_text . '<i class="fab fa-discord"></i> </a>';
+				$restrictcontent_discord .= '<a href="?action=learnpress-discord-login" class="learnpress-discord-btn-connect ets-btn" >' . $ets_learnpress_discord_loggedin_button_text . '<i class="fab fa-discord"></i> </a>';
 				$restrictcontent_discord .= '</div>';
-				if ( $mapped_role_name ) {
-					$restrictcontent_discord .= '<p class="ets_assigned_role">';
-
-					$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'learnpress-discord-addon' );
-					$restrictcontent_discord .= esc_html( $mapped_role_name );
-					if ( $default_role_name ) {
-						$restrictcontent_discord .= ' ' . esc_html( $default_role_name );
-
-					}
-
-					$restrictcontent_discord .= '</p>';
-				} elseif ( $default_role_name ) {
-					$restrictcontent_discord .= '<p class="ets_assigned_role">';
-
-					$restrictcontent_discord                    .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'learnpress-discord-addon' );
-					$restrictcontent_discord .= esc_html( $default_role_name );
-
-					$restrictcontent_discord .= '</p>';
-
-				}
-
-					$restrictcontent_discord .= '</div>';
+				$restrictcontent_discord  = ets_learnpress_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );                                                                
+				$restrictcontent_discord .= '</div>';
 
 			}
 		}
