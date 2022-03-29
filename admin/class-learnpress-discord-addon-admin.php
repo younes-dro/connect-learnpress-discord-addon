@@ -818,6 +818,8 @@ class Learnpress_Discord_Addon_Admin {
 						$this->learnpress_discord_public_instance->add_discord_member_in_guild( $discord_user_id, $user_id, $access_token );
 					}
 					if ( $allow_none_student == 'yes' ) {
+						$courses = array ( $course_id );
+						as_schedule_single_action( ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_send_dm', array( $user_id, $courses, 'welcome' ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
 						$this->learnpress_discord_public_instance->ets_learnpress_discord_update_course_access( $user_id, $course_id );                                                                            
 					}        
 				}

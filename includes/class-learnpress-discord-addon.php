@@ -194,7 +194,7 @@ class Learnpress_Discord_Addon {
 //		$this->loader->add_action( 'learn-press/deleted-order-item', $plugin_admin, 'ets_learnpress_discord_delete_order', 10, 2 );                                                                
 //		$th->loader->add_action( 'learn-press/before-delete-order-item', $plugin_admin, 'ets_learnpress_discord_delete_order_item', 10, 1 );  
 		$this->loader->add_action( 'before_delete_post', $plugin_admin, 'ets_learnpress_discord_delete_order' ,10 ,2 );                                                                
-		$this->loader->add_action( 'learn-press/checkout-order-processed', $plugin_admin, 'ets_learnpress_discord_checkout_order_processed' ,10 ,2 );                                                                                
+//		$this->loader->add_action( 'learn-press/checkout-order-processed', $plugin_admin, 'ets_learnpress_discord_checkout_order_processed' ,10 ,2 );                                                                                
 		$this->loader->add_action( 'learn-press/order/status-changed', $plugin_admin, 'ets_learnpress_discord_order_status_changed' ,10 ,3 );                                                                                                
 
 	}

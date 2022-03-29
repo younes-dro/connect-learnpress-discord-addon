@@ -206,7 +206,7 @@ class Learnpress_Discord_Addon_Public {
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script( $this->plugin_name );
 
-				echo $restrictcontent_discord;
+		echo $restrictcontent_discord;
 	}
 
 	/**
