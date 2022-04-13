@@ -416,6 +416,7 @@ a{
 }
 .ets-is-active{
   visibility: visible;
+  display: inline-block!important;
 }
 .learnpress-discord-roles .spinner, .initialtab.spinner{
   float: none;
@@ -521,4 +522,17 @@ span.discord-bot b{
     position: absolute;
     top: 2px;
     left: 5px;
+}
+p.ets-discord-update-message{
+    display: none;
+}
+p.redirect-url{
+    border: 1px solid;
+    padding: 10px 10px;
+    background-color: #f0f0f1;
+    height: 50px;
+    min-height: 50px;   
+}
+.ets-input-group p.description span.spinner{
+    float: none;
 }

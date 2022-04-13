@@ -196,6 +196,7 @@ class Learnpress_Discord_Addon {
 		$this->loader->add_action( 'before_delete_post', $plugin_admin, 'ets_learnpress_discord_delete_order' ,10 ,2 );                                                                
 //		$this->loader->add_action( 'learn-press/checkout-order-processed', $plugin_admin, 'ets_learnpress_discord_checkout_order_processed' ,10 ,2 );                                                                                
 		$this->loader->add_action( 'learn-press/order/status-changed', $plugin_admin, 'ets_learnpress_discord_order_status_changed' ,10 ,3 );                                                                                                
+		$this->loader->add_action( 'wp_ajax_ets_learnpress_discord_update_redirect_url', $plugin_admin, 'ets_learnpress_discord_update_redirect_url' );                                                                                                                
 
 	}
 
