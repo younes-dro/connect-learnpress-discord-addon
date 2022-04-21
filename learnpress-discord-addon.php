@@ -52,7 +52,7 @@ define( 'LEARNPRESS_DISCORD_BOT_PERMISSIONS', 8 );
 /**
  * Discord api call scopes.
  */
-define( 'LEARNPRESS_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming messages.read applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
+define( 'LEARNPRESS_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
 
 /**
  * Define group name for action scheduler actions
@@ -70,7 +70,7 @@ define( 'LEARNPRESS_DISCORD_DONOT_RETRY_HTTP_CODES', array( 400, 401, 403, 404, 
 /**
  * Discord API url. 
  */
-define( 'LEARNPRESS_DISCORD_API_URL', 'https://discord.com/api/v6/' );
+define( 'LEARNPRESS_DISCORD_API_URL', 'https://discord.com/api/v10/' );
 
 /**
  * The code that runs during plugin activation.
