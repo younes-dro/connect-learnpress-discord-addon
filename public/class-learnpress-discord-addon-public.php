@@ -752,11 +752,7 @@ class Learnpress_Discord_Addon_Public {
 				'Content-Type'  => 'application/json',
 				'Authorization' => 'Bot ' . $discord_bot_token,
 			),
-			'body'    => json_encode(
-				array(
-					'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
-				)
-			),
+			'body'    => ets_learnpress_discord_get_rich_embed_message( trim ( $message ) ),
 		);
 		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
 		ets_learnpress_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
