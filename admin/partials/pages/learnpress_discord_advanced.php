@@ -16,6 +16,7 @@ $retry_api_count                               = sanitize_text_field( trim( get_
 $set_job_cnrc                                  = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_job_queue_concurrency' ) ) );
 $set_job_q_batch_size                          = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_job_queue_batch_size' ) ) );
 $log_api_res                                   = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_log_api_response' ) ) );
+$embed_messaging_feature                       = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_embed_messaging_feature' ) ) );
 
 ?>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
@@ -35,6 +36,19 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		 value="1">
 		</fieldset></td>
 	</tr>
+	<tr>
+		<th scope="row"><?php echo __( 'Use rich embed messaging feature?', 'learnpress-discord-addon' ); ?></th>
+		<td> <fieldset>
+		<input name="embed_messaging_feature" type="checkbox" id="embed_messaging_feature" 
+		<?php
+		if ( $embed_messaging_feature == true ) {
+			echo 'checked="checked"'; }
+		?>
+		 value="1">
+                <br/>
+                <small>Use [LINEBREAK] to split lines.</small>                
+		</fieldset></td>
+	  </tr>        
 	<tr>
 		<th scope="row"><?php echo __( 'Welcome message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>

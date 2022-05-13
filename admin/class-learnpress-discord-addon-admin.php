@@ -374,6 +374,7 @@ class Learnpress_Discord_Addon_Admin {
 			$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
 			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
 			$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+			$embed_messaging_feature                    = isset( $_POST['embed_messaging_feature'] ) ? sanitize_textarea_field( trim( $_POST['embed_messaging_feature'] ) ) : '';                                                
 			$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                        
 
 		if ( isset( $_POST['ets_learnpress_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_learnpress_discord_advance_settings_nonce'], 'learnpress_discord_advance_settings_nonce' ) ) {
@@ -455,7 +456,11 @@ class Learnpress_Discord_Addon_Admin {
 				} else {
 					update_option( 'ets_learnpress_discord_log_api_response', false );
 				}
-
+				if ( isset( $_POST['embed_messaging_feature'] ) ) {
+					update_option( 'ets_learnpress_discord_embed_messaging_feature', true );
+				} else {
+					update_option( 'ets_learnpress_discord_embed_messaging_feature', false );
+				}
 				$message = 'Your settings are saved successfully.';
 
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learnpress_discord_advanced';

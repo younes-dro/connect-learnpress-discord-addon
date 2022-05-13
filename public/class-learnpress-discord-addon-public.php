@@ -718,7 +718,7 @@ class Learnpress_Discord_Addon_Public {
 	public function ets_learnpress_discord_handler_send_dm( $user_id, $courses, $type = 'warning' ) {
 		$discord_user_id   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_user_id', true ) ) );
 		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_bot_token' ) ) );
-
+		$embed_messaging_feature = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_embed_messaging_feature' ) ) );                
 		$ets_learnpress_discord_welcome_message = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_welcome_message' ) ) );
 
 		// Check if DM channel is already created for the user.
@@ -743,14 +743,30 @@ class Learnpress_Discord_Addon_Public {
 		}
 
 		$creat_dm_url = LEARNPRESS_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
-		$dm_args      = array(
-			'method'  => 'POST',
-			'headers' => array(
-				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bot ' . $discord_bot_token,
-			),
-			'body'    => ets_learnpress_discord_get_rich_embed_message( trim ( $message ) ),
-		);
+		if( $embed_messaging_feature ) {
+			$dm_args      = array(
+				'method'  => 'POST',
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bot ' . $discord_bot_token,
+				),
+				'body'    => ets_learnpress_discord_get_rich_embed_message( trim ( $message ) ),
+
+			); 
+		} else {
+			$dm_args      = array(
+				'method'  => 'POST',
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bot ' . $discord_bot_token,
+				),
+				'body'    => json_encode(
+					array(
+						'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
+					)
+				),
+			);                    
+		}
 		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
 		ets_learnpress_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
 		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
