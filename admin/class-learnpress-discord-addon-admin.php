@@ -272,7 +272,7 @@ class Learnpress_Discord_Addon_Admin {
 
 			if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 				if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
-									//Learnpress_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+					Learnpress_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				} else {
 					$response_arr['previous_mapping'] = get_option( 'ets_learnpress_discord_role_mapping' );
 
@@ -291,9 +291,11 @@ class Learnpress_Discord_Addon_Admin {
 						}
 						if ( $key != 'previous_mapping' && $isbot == false && isset( $value['name'] ) && $value['name'] != '@everyone' ) {
 							$discord_roles[ $value['id'] ] = $value['name'];
+							$discord_roles_color[ $value['id'] ] = $value['color'];                                                        
 						}
 					}
 					update_option( 'ets_learnpress_discord_all_roles', serialize( $discord_roles ) );
+					update_option( 'ets_learnpress_discord_roles_color', serialize( $discord_roles_color ) );                                                                                
 				}
 			}
 				return wp_send_json( $response_arr );
