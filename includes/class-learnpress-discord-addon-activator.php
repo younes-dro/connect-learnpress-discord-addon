@@ -43,6 +43,7 @@ class Learnpress_Discord_Addon_Activator {
 		update_option( 'ets_learnpress_discord_job_queue_concurrency', 1 );
 		update_option( 'ets_learnpress_discord_job_queue_batch_size', 6 );
 		update_option( 'ets_learnpress_discord_log_api_response', false );
+		update_option( 'ets_learnpress_discord_embed_messaging_feature', false );                
 		update_option( 'ets_learnpress_discord_uuid_file_name', wp_generate_uuid4() );
 	}
 
