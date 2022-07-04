@@ -45,6 +45,11 @@ class Learnpress_Discord_Addon_Activator {
 		update_option( 'ets_learnpress_discord_log_api_response', false );
 		update_option( 'ets_learnpress_discord_embed_messaging_feature', false );                
 		update_option( 'ets_learnpress_discord_uuid_file_name', wp_generate_uuid4() );
+		update_option( 'ets_learnpress_discord_connect_button_bg_color', '#7bbc36' );
+		update_option( 'ets_learnpress_discord_disconnect_button_bg_color', '#ff0000' );
+		update_option( 'ets_learnpress_discord_loggedin_button_text', 'Connect With Discord' );
+		update_option( 'ets_learnpress_discord_non_login_button_text', 'Login With Discord' );
+		update_option( 'ets_learnpress_discord_disconnect_button_text', 'Disconnect From Discord' );                
 	}
 
 }
