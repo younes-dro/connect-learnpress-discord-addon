@@ -24,7 +24,7 @@ function ets_learnpress_discord_pages_list( $ets_learnpress_discord_redirect_pag
     $pages = get_pages($args);
        
    
-    $options = '<option value="" disabled>-</option>';
+    $options = '<option value="-">-</option>';
 	if ( is_array( $pages ) ) {
 		foreach( $pages as $page ){ 
 			$selected = ( esc_attr( $page->ID ) === $ets_learnpress_discord_redirect_page_id  ) ? ' selected="selected"' : '';
