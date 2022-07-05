@@ -174,7 +174,7 @@ class Learnpress_Discord_Addon_Public {
                                 
 				$restrictcontent_discord .= '<div class="learnpress-discord">';
 				$restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord                 .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</label>';
+				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</label>';
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<a href="#" class="ets-btn learnpress-discord-btn-disconnect" ' . $disconnect_btn_bg_color . ' data-user-id="' . esc_attr( $user_id ) . '">' . esc_html__( $ets_learnpress_discord_disconnect_button_text ) . '<i class="fab fa-discord"></i> </a>';
@@ -188,7 +188,18 @@ class Learnpress_Discord_Addon_Public {
 								|| ( ets_learnpress_discord_get_student_courses_id( $user_id ) && ! $mapped_role_name && $default_role_name )
 								|| ( $allow_none_student == 'yes' && $default_role_name ) ) {
                             
-				echo '<style>a.learnpress-discord-btn-connect{background-color: ' . $ets_learnpress_discord_connect_button_bg_color . '}</style>';
+
+			_e ( 
+				sprintf ( 
+					wp_kses ( 
+						'<style>a.learnpress-discord-btn-connect{background-color:  %s }</style>', 
+						array( 
+							'style' => array()
+						) 
+					), 
+					$ets_learnpress_discord_connect_button_bg_color 
+				) 
+			);                                
 
 				$restrictcontent_discord .= '<div class="learnpress-discord">';
 				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</h3>';
