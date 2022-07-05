@@ -975,9 +975,42 @@ class Learnpress_Discord_Addon_Public {
 				}
 			}
 			$login_with_discord_button .= ets_learnpress_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $login_with_discord_button );
-                        echo '<style>a.learnpress-discord-btn-connect{background-color: ' . $ets_learnpress_discord_connect_button_bg_color . '}</style>';
-			echo '<div class="connect-with-discord-wrapper"> <a  class="learnpress-discord-btn-connect ets-btn"  href="?action=learnpress-discord-login&current-location=' . $current_location_url . '">' . esc_html( $ets_learnpress_discord_non_login_button_text ) . ' <i class="fab fa-discord"></i></a>';
-			echo $login_with_discord_button . '</div>';
+                        
+			_e ( 
+				sprintf ( 
+					wp_kses ( 
+						'<style>a.learnpress-discord-btn-connect{background-color:  %s }</style>', 
+						array( 
+							'style' => array()
+						) 
+					), 
+					$ets_learnpress_discord_connect_button_bg_color 
+				) 
+			);                        
+			_e ( 
+				sprintf ( 
+					wp_kses ( 
+						'<div class="connect-with-discord-wrapper"> <a  class="learnpress-discord-btn-connect ets-btn"  href="?action=learnpress-discord-login&current-location=%1$s"> %2$s <i class="fab fa-discord"></i></a>', 
+						array(
+							'div' => array(
+									'class' => array()		
+							),                                                    
+							'a' => array(
+									'class' => array(),		
+									'href' => array(),
+							),
+							'i' => array(
+									'class' => array()		
+							),                                                    
+						) 
+					),
+					$current_location_url, $ets_learnpress_discord_non_login_button_text 
+				) 
+			) ;                        
+                        
+			$login_with_discord_button .= '</div>';
+                        
+			_e ( wp_kses( $login_with_discord_button, ets_learnpress_discord_allowed_html() ) );
 		} 
 	}
 	public function ets_learnpress_discord_login_with_discord (){
