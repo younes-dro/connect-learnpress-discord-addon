@@ -13,26 +13,26 @@ $default_role        = sanitize_text_field( trim( get_option( 'ets_learnpress_di
 $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_allow_none_student' ) ) );
 ?>
 <div class="notice notice-warning ets-notice">
-  <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the LearnPress Courses', 'learnpress-discord-addon' ); ?></p>
+  <p><i class='fas fa-info'></i> <?php esc_html_e( 'Drag and Drop the Discord Roles over to the LearnPress Courses', 'learnpress-discord-addon' ); ?></p>
 </div>
 
 <div class="row-container">
   <div class="ets-column learnpress-discord-roles-col">
-	<h2><?php echo __( 'Discord Roles', 'learnpress-discord-addon' ); ?></h2>
+	<h2><?php esc_html_e( 'Discord Roles', 'learnpress-discord-addon' ); ?></h2>
 	<hr>
 	<div class="learnpress-discord-roles">
 	  <span class="spinner"></span>
 	</div>
   </div>
   <div class="ets-column">
-	<h2><?php echo __( 'Courses', 'learnpress-discord-addon' ); ?></h2>
+	<h2><?php esc_html_e( 'Courses', 'learnpress-discord-addon' ); ?></h2>
 	<hr>
 	<div class="learnpress-discord-courses">
 	<?php
 	foreach ( $courses as $course ) {
 		
 			?>
-		  <div class="makeMeDroppable" data-learnpress_course_id="<?php echo esc_attr( $course->ID ); ?>" ><span><?php echo esc_html( $course->post_title ); ?></span></div>
+		  <div class="makeMeDroppable" data-learnpress_course_id="<?php echo esc_attr( $course->ID ); ?>" ><span><?php  esc_html_e( $course->post_title ); ?></span></div>
 			<?php
 		
 	}
@@ -40,39 +40,39 @@ $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learnpress_di
 	</div>
   </div>
 </div>
-<form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
+<form method="post" action="<?php echo esc_url( get_site_url().'/wp-admin/admin-post.php' ) ?>">
  <input type="hidden" name="action" value="learnpress_discord_save_role_mapping">
- <input type="hidden" name="current_url" value="<?php echo ets_learnpress_discord_get_current_screen_url()?>">   
+ <input type="hidden" name="current_url" value="<?php echo esc_url( ets_learnpress_discord_get_current_screen_url() )?>">   
   <table class="form-table" role="presentation">
 	<tbody>
 	  <tr>
-		<th scope="row"><label for="learnpress-defaultRole"><?php echo __( 'Default Role', 'learnpress-discord-addon' ); ?></label></th>
+		<th scope="row"><label for="learnpress-defaultRole"><?php esc_html_e( 'Default Role', 'learnpress-discord-addon' ); ?></label></th>
 		<td>
 		  <?php wp_nonce_field( 'learnpress_discord_role_mappings_nonce', 'ets_learnpress_discord_role_mappings_nonce' ); ?>
 		  <input type="hidden" id="selected_default_role" value="<?php echo esc_attr( $default_role ); ?>">
 		  <select id="learnpress-defaultRole" name="learnpress_defaultRole">
-			<option value="none"><?php echo __( '-None-', 'learnpress-discord-addon' ); ?></option>
+			<option value="none"><?php esc_html_e( '-None-', 'learnpress-discord-addon' ); ?></option>
 		  </select>
-		  <p class="description"><?php echo __( 'This Role will be assigned to all', 'learnpress-discord-addon' ); ?></p>
+		  <p class="description"><?php esc_html_e( 'This Role will be assigned to all', 'learnpress-discord-addon' ); ?></p>
 		</td>
 	  </tr>
 	  <tr>
-		<th scope="row"><label><?php echo __( 'Allow non-student', 'learnpress-discord-addon' ); ?></label></th>
+		<th scope="row"><label><?php esc_html_e( 'Allow non-student', 'learnpress-discord-addon' ); ?></label></th>
 		<td>
 		  <fieldset>
 		  <label><input type="radio" name="allow_none_student" value="yes"  
 		  <?php
 			if ( $allow_none_student == 'yes' ) {
-				echo 'checked="checked"'; }
+				echo esc_attr( 'checked="checked"' ); }
 			?>
-			 > <span><?php echo __( 'Yes', 'learnpress-discord-addon' ); ?></span></label><br>
+			 > <span><?php esc_html_e( 'Yes', 'learnpress-discord-addon' ); ?></span></label><br>
 		  <label><input type="radio" name="allow_none_student" value="no" 
 		  <?php
 			if ( empty( $allow_none_student ) || $allow_none_student == 'no' ) {
-				echo 'checked="checked"'; }
+				echo esc_attr( 'checked="checked"' ); }
 			?>
-			 > <span><?php echo __( 'No', 'learnpress-discord-addon' ); ?></span></label>
-		  <p class="description"><?php echo __( 'Display connect button to normal wordpress site users having LearnPress account', 'learnpress-discord-addon' ); ?></p>
+			 > <span><?php esc_html_e( 'No', 'learnpress-discord-addon' ); ?></span></label>
+		  <p class="description"><?php esc_html_e( 'Display connect button to normal wordpress site users having LearnPress account', 'learnpress-discord-addon' ); ?></p>
 		  </fieldset>
 		</td>
 	  </tr>          
@@ -90,10 +90,10 @@ $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learnpress_di
   </div>
   <div class="bottom-btn">
 	<button type="submit" name="submit" value="ets_submit" class="ets-submit ets-btn-submit ets-bg-green">
-	  <?php echo __( 'Save Settings', 'learnpress-discord-addon' ); ?>
+	  <?php esc_html_e( 'Save Settings', 'learnpress-discord-addon' ); ?>
 	</button>
 	<button id="revertMapping" name="flush" class="ets-submit ets-btn-submit ets-bg-red">
-	  <?php echo __( 'Flush Mappings', 'learnpress-discord-addon' ); ?>
+	  <?php esc_html_e( 'Flush Mappings', 'learnpress-discord-addon' ); ?>
 	</button>
   </div>
 </form>

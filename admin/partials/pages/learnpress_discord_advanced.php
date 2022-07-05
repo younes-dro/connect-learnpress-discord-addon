@@ -19,9 +19,9 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 $embed_messaging_feature                       = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_embed_messaging_feature' ) ) );
 
 ?>
-<form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
+<form method="post" action="<?php echo esc_url( get_site_url().'/wp-admin/admin-post.php' ) ?>">
  <input type="hidden" name="action" value="learnpress_discord_save_advance_settings">
- <input type="hidden" name="current_url" value="<?php echo ets_learnpress_discord_get_current_screen_url()?>">   
+ <input type="hidden" name="current_url" value="<?php echo esc_url( ets_learnpress_discord_get_current_screen_url() )?>">   
 <?php wp_nonce_field( 'learnpress_discord_advance_settings_nonce', 'ets_learnpress_discord_advance_settings_nonce' ); ?>
   <table class="form-table" role="presentation">
 	<tbody>            
@@ -31,7 +31,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="ets_learnpress_discord_send_welcome_dm" type="checkbox" id="ets_learnpress_discord_send_welcome_dm" 
 		<?php
 		if ( $ets_learnpress_discord_send_welcome_dm == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -42,7 +42,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="embed_messaging_feature" type="checkbox" id="embed_messaging_feature" 
 		<?php
 		if ( $embed_messaging_feature == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
                 <br/>
@@ -52,7 +52,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Welcome message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_dm_textarea" name="ets_learnpress_discord_welcome_message" id="ets_learnpress_discord_welcome_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_welcome_message ) { echo wp_unslash( $ets_learnpress_discord_welcome_message ); } ?></textarea> 
+		<textarea class="ets_learnpress_discord_dm_textarea" name="ets_learnpress_discord_welcome_message" id="ets_learnpress_discord_welcome_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_welcome_message ) { echo esc_textarea( wp_unslash( $ets_learnpress_discord_welcome_message ) ); } ?></textarea> 
 	<br/>
 	<small>Merge fields: [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_COURSES], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -63,7 +63,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="ets_learnpress_discord_send_course_complete_dm" type="checkbox" id="ets_learnpress_discord_send_course_complete_dm" 
 		<?php
 		if ( $ets_learnpress_discord_send_course_complete_dm == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -71,7 +71,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Course Complete message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_course_complete_message" name="ets_learnpress_discord_course_complete_message" id="ets_learnpress_discord_course_complete_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_course_complete_message ) { echo wp_unslash( $ets_learnpress_discord_course_complete_message ); } ?></textarea> 
+		<textarea class="ets_learnpress_discord_course_complete_message" name="ets_learnpress_discord_course_complete_message" id="ets_learnpress_discord_course_complete_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_course_complete_message ) { echo esc_textarea( wp_unslash( $ets_learnpress_discord_course_complete_message ) ); } ?></textarea> 
 	<br/>
 	<small>Merge fields: [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_COURSE_NAME], [LP_COURSE_COMPLETE_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -82,7 +82,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="ets_learnpress_discord_send_lesson_complete_dm" type="checkbox" id="ets_learnpress_discord_send_lesson_complete_dm" 
 		<?php
 		if ( $ets_learnpress_discord_send_lesson_complete_dm == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -90,7 +90,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Lesson Complete message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_lesson_complete_message" name="ets_learnpress_discord_lesson_complete_message" id="ets_learnpress_discord_lesson_complete_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_lesson_complete_message ) { echo wp_unslash( $ets_learnpress_discord_lesson_complete_message ); } ?></textarea> 
+		<textarea class="ets_learnpress_discord_lesson_complete_message" name="ets_learnpress_discord_lesson_complete_message" id="ets_learnpress_discord_lesson_complete_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_lesson_complete_message ) { echo esc_textarea( wp_unslash( $ets_learnpress_discord_lesson_complete_message ) ); } ?></textarea> 
 	<br/>
 	<small>Merge fields:  [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_LESSON_NAME], [LP_COURSE_LESSON_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -102,7 +102,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="ets_learnpress_discord_send_quiz_complete_dm" type="checkbox" id="ets_learnpress_discord_send_quiz_complete_dm" 
 		<?php
 		if ( $ets_learnpress_discord_send_quiz_complete_dm == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -110,7 +110,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Topic Quiz message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_quiz_complete_message" name="ets_learnpress_discord_quiz_complete_message" id="ets_learnpress_discord_quiz_complete_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_quiz_complete_message ) { echo wp_unslash( $ets_learnpress_discord_quiz_complete_message ); } ?></textarea> 
+		<textarea class="ets_learnpress_discord_quiz_complete_message" name="ets_learnpress_discord_quiz_complete_message" id="ets_learnpress_discord_quiz_complete_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_quiz_complete_message ) { echo esc_textarea ( wp_unslash( $ets_learnpress_discord_quiz_complete_message ) ); } ?></textarea> 
 	<br/>
 	<small>Merge fields: [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_QUIZ_NAME], [LP_QUIZ_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -122,7 +122,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="retry_failed_api" type="checkbox" id="retry_failed_api" 
 		<?php
 		if ( $retry_failed_api == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -133,7 +133,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="kick_upon_disconnect" type="checkbox" id="kick_upon_disconnect" 
 		<?php
 		if ( $kick_upon_disconnect == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
@@ -141,19 +141,19 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 	<tr>
 		<th scope="row"><?php esc_html_e( 'How many times a failed API call should get re-try', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<input name="ets_learnpress_retry_api_count" type="number" min="1" id="ets_learnpress_retry_api_count" value="<?php if ( isset( $retry_api_count ) ) { echo intval( $retry_api_count ); } else { echo 1; } ?>">
+		<input name="ets_learnpress_retry_api_count" type="number" min="1" id="ets_learnpress_retry_api_count" value="<?php if ( isset( $retry_api_count ) ) { echo esc_attr( intval( $retry_api_count ) ); } else { echo 1; } ?>">
 		</fieldset></td>
 	  </tr> 
 	  <tr>
 		<th scope="row"><?php esc_html_e( 'Set job queue concurrency', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php if ( isset( $set_job_cnrc ) ) { echo intval( $set_job_cnrc ); } else { echo 1; } ?>">
+		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php if ( isset( $set_job_cnrc ) ) { echo esc_attr( intval( $set_job_cnrc ) ); } else { echo 1; } ?>">
 		</fieldset></td>
 	  </tr>
 	  <tr>
 		<th scope="row"><?php esc_html_e( 'Set job queue batch size', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php if ( isset( $set_job_q_batch_size ) ) { echo intval( $set_job_q_batch_size ); } else { echo 10; } ?>">
+		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php if ( isset( $set_job_q_batch_size ) ) { echo esc_attr( intval( $set_job_q_batch_size ) ); } else { echo 10; } ?>">
 		</fieldset></td>
 	  </tr>
 	<tr>
@@ -162,7 +162,7 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		<input name="log_api_res" type="checkbox" id="log_api_res" 
 		<?php
 		if ( $log_api_res == true ) {
-			echo 'checked="checked"'; }
+			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
