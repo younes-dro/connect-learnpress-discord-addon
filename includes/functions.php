@@ -300,6 +300,49 @@ function ets_learnpress_discord_get_formatted_dm( $user_id, $courses, $message )
 }
 
 /**
+ * Get formatted Course complete message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $course_id
+ * Merge fields: [LP_COURSE_NAME], [LP_COURSE_COMPLETE_DATE], [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [SITE_URL], [BLOG_NAME]
+ */
+function ets_learnpress_discord_get_formatted_course_complete_dm( $user_id, $course_id , $message) {
+        
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
+        
+	$course = get_post( $course_id );
+	$COURSE_NAME = $course->post_title;
+        
+	$COURSE_COMPLETE_DATE = date_i18n( get_option( 'date_format' ), time() ) ;
+        
+       
+
+		$find    = array(
+			'[LP_COURSE_NAME]',
+			'[LP_COURSE_COMPLETE_DATE]',                    
+			'[LP_STUDENT_NAME]',
+			'[LP_STUDENT_EMAIL]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'                     
+		);
+		$replace = array(
+			$COURSE_NAME,
+			$COURSE_COMPLETE_DATE,
+			$STUDENT_USERNAME,
+			$STUDENT_EMAIL,
+			$SITE_URL,
+			$BLOG_NAME                     
+		);
+
+		return str_replace( $find, $replace, $message );
+
+}
+
+/**
  * Get formatted Lesson complete message to send in DM
  *
  * @param INT $user_id

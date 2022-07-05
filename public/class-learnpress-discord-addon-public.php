@@ -752,6 +752,10 @@ class Learnpress_Discord_Addon_Public {
 			
 			$message = ets_learnpress_discord_get_formatted_dm( $user_id, $courses, $ets_learnpress_discord_welcome_message );
 		}
+		if ( $type == 'course_complete' ) {
+			$ets_learnpress_discord_course_complete_message = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_course_complete_message' ) ) );
+			$message = ets_learnpress_discord_get_formatted_course_complete_dm( $user_id, $courses, $ets_learnpress_discord_course_complete_message );        
+		}                
 		if ( $type == 'lesson_complete' ) {
 			$ets_learnpress_discord_lesson_complete_message = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_lesson_complete_message' ) ) );
 			$message = ets_learnpress_discord_get_formatted_lesson_complete_dm( $user_id, $courses, $ets_learnpress_discord_lesson_complete_message );        
@@ -1050,6 +1054,15 @@ class Learnpress_Discord_Addon_Public {
             
             
 	}
+        public function ets_learnpress_discord_course_finished( $course_id, $user_id, $return ){
+		$ets_learnpress_discord_send_course_complete_dm = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_send_course_complete_dm' ) ) );
+
+		// Send Course Complete message.
+		if ( $ets_learnpress_discord_send_course_complete_dm == true && $return ) {
+			as_schedule_single_action( ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
+		}
+        }
+
         public function ets_learnpress_discord_complete_lessson( $lesson_id, $course_id, $user_id ){
 //            	$user   = LP_Global::user();
 //		$course = LP_Global::course();
@@ -1060,7 +1073,7 @@ class Learnpress_Discord_Addon_Public {
 
 		// Send Lesson Complete message.
 		if ( $ets_learnpress_discord_send_lesson_complete_dm == true ) {
-			as_schedule_single_action(ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
+			as_schedule_single_action( ets_learnpress_discord_get_random_timestamp( ets_learnpress_discord_get_highest_last_attempt_timestamp() ), 'ets_learnpress_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), LEARNPRESS_DISCORD_AS_GROUP_NAME );
 		}
         }
 }
