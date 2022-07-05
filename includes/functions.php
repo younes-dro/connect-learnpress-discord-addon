@@ -375,9 +375,9 @@ function ets_learnpress_discord_roles_assigned_message ( $mapped_role_name, $def
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
 					
 		$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'learnpress-discord-addon' );
-		$restrictcontent_discord .= ets_learnpress_discord_allowed_html( $mapped_role_name  );
+		$restrictcontent_discord .= $mapped_role_name ;
 		if ( $default_role_name ) {
-			$restrictcontent_discord .= ' ' . ets_learnpress_discord_allowed_html( $default_role_name ); 
+			$restrictcontent_discord .= $default_role_name; 
                                                 
 		}
 					
@@ -386,7 +386,7 @@ function ets_learnpress_discord_roles_assigned_message ( $mapped_role_name, $def
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
 					
 		$restrictcontent_discord .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'learnpress-discord-addon' );
-		$restrictcontent_discord .= ets_learnpress_discord_allowed_html( $default_role_name ); 
+		$restrictcontent_discord .= $default_role_name; 
 					
 		$restrictcontent_discord .= '</p>';
                                          
@@ -448,13 +448,44 @@ function ets_learnpress_discord_get_rich_embed_message ( $message ){
 
 	return $rich_embed_message ;
 }
-function ets_learnpress_discord_allowed_html( $html_message ) {
+
+/**
+ * Get allowed html using Wordpress API function wp_kses
+ *
+ * @return ARRAY $allowed_html
+ */
+function ets_learnpress_discord_allowed_html( ) {
 	$allowed_html = array(
-		'span' => array(),
+		'div' => array(
+			'class' => array()
+		),
+		'p' => array(               
+			'class' => array()
+		),
+		'a' => array(                                
+			'id' => array(),
+			'data-user-id' => array(),                    
+			'href' => array(), 
+			'class' => array(),
+			'style' => array(),                    
+		),
+		'label' => array(
+			'class'=>array() 
+		),
+		'h3' => array(),            
+		'span' => array(
+			'class' => array()
+		),
 		'i' => array(
-			'style' => array()
-		)
+			'style' => array(),
+			'class' => array()                    
+		),
+		'button' => array(
+			'class' => array(),
+			'data-user-id' => array(),
+			'id' => array(),                    
+		)            
 	);
 
-	return wp_kses( $html_message, $allowed_html );
+	return $allowed_html;
 }
