@@ -687,7 +687,7 @@ class Learnpress_Discord_Addon_Admin {
 				$DisConnect = '<h3>'.  esc_html__( 'Disconnect', 'learnpress-discord-addon' ).'</h3>';
 				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">'. esc_html__( 'Disconnect from discord ' , 'learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
 				$DisConnect .= '<p>' . esc_html__ ( sprintf( 'Connected account: %s', $_ets_learnpress_discord_username ) , 'learnpress-discord-addon' ) . '</p>';                                
-				echo $DisConnect;
+				_e( wp_kses( $DisConnect, ets_learnpress_discord_allowed_html() ) );
                         }   
 		}          
 	}
