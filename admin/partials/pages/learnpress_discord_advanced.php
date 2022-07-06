@@ -7,8 +7,8 @@ $ets_learnpress_discord_send_lesson_complete_dm = sanitize_text_field( trim( get
 $ets_learnpress_discord_lesson_complete_message = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_lesson_complete_message' ) ) );
 
 
-$ets_learnpress_discord_send_quiz_complete_dm   = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_send_quiz_complete_dm' ) ) );
-$ets_learnpress_discord_quiz_complete_message   = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_quiz_complete_message' ) ) );
+//$ets_learnpress_discord_send_quiz_complete_dm   = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_send_quiz_complete_dm' ) ) );
+//$ets_learnpress_discord_quiz_complete_message   = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_quiz_complete_message' ) ) );
 
 $retry_failed_api                              = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_retry_failed_api' ) ) );
 $kick_upon_disconnect                          = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_kick_upon_disconnect' ) ) );
@@ -96,25 +96,25 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
           
-  <tr>
-		<th scope="row"><?php esc_html_e( 'Send Quiz Complete message', 'learnpress-discord-addon' ); ?></th>
+<!--  <tr>
+		<th scope="row"><?php // esc_html_e( 'Send Quiz Complete message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learnpress_discord_send_quiz_complete_dm" type="checkbox" id="ets_learnpress_discord_send_quiz_complete_dm" 
 		<?php
-		if ( $ets_learnpress_discord_send_quiz_complete_dm == true ) {
-			echo esc_attr( 'checked="checked"' ); }
+//		if ( $ets_learnpress_discord_send_quiz_complete_dm == true ) {
+//			echo esc_attr( 'checked="checked"' ); }
 		?>
 		 value="1">
 		</fieldset></td>
-	  </tr>
-	<tr>
-		<th scope="row"><?php esc_html_e( 'Topic Quiz message', 'learnpress-discord-addon' ); ?></th>
+	  </tr>-->
+<!--	<tr>
+		<th scope="row"><?php // esc_html_e( 'Topic Quiz message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_quiz_complete_message" name="ets_learnpress_discord_quiz_complete_message" id="ets_learnpress_discord_quiz_complete_message" row="25" cols="50"><?php if ( $ets_learnpress_discord_quiz_complete_message ) { echo esc_textarea ( wp_unslash( $ets_learnpress_discord_quiz_complete_message ) ); } ?></textarea> 
+		<textarea class="ets_learnpress_discord_quiz_complete_message" name="ets_learnpress_discord_quiz_complete_message" id="ets_learnpress_discord_quiz_complete_message" row="25" cols="50"><?php // if ( $ets_learnpress_discord_quiz_complete_message ) { echo esc_textarea ( wp_unslash( $ets_learnpress_discord_quiz_complete_message ) ); } ?></textarea> 
 	<br/>
 	<small>Merge fields: [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_QUIZ_NAME], [LP_QUIZ_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
-	  </tr>          
+	  </tr>          -->
 
 	  <tr>
 		<th scope="row"><?php esc_html_e( 'Retry Failed API calls', 'learnpress-discord-addon' ); ?></th>

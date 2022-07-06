@@ -36,7 +36,7 @@ class Learnpress_Discord_Addon_Activator {
 		update_option( 'ets_learnpress_discord_course_complete_message', 'Hi [LP_STUDENT_NAME] ([LP_STUDENT_EMAIL]), You have completed the course  [LP_COURSE_NAME] at [LP_COURSE_COMPLETE_DATE] on website [SITE_URL], [BLOG_NAME]' );
 		update_option( 'ets_learnpress_discord_send_lesson_complete_dm', true );
 		update_option( 'ets_learnpress_discord_lesson_complete_message', 'Hi [LP_STUDENT_NAME] ([LP_STUDENT_EMAIL]), You have completed the lesson  [LP_LESSON_NAME] at [LP_COURSE_LESSON_DATE] on website [SITE_URL], [BLOG_NAME]' );                
-		update_option( 'ets_learnpress_discord_quiz_complete_message', 'Hi [LP_STUDENT_NAME] ([LP_STUDENT_EMAIL]), You have completed the quiz  [LP_QUIZ_NAME] at [LP_QUIZ_DATE] on website [SITE_URL], [BLOG_NAME]' );                                 
+//		update_option( 'ets_learnpress_discord_quiz_complete_message', 'Hi [LP_STUDENT_NAME] ([LP_STUDENT_EMAIL]), You have completed the quiz  [LP_QUIZ_NAME] at [LP_QUIZ_DATE] on website [SITE_URL], [BLOG_NAME]' );                                 
 		update_option( 'ets_learnpress_discord_retry_failed_api', true );
 		update_option( 'ets_learnpress_discord_kick_upon_disconnect', false ); 
 		update_option( 'ets_learnpress_discord_retry_api_count', 5 );
