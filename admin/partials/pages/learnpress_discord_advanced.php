@@ -24,7 +24,14 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
  <input type="hidden" name="current_url" value="<?php echo esc_url( ets_learnpress_discord_get_current_screen_url() )?>">   
 <?php wp_nonce_field( 'learnpress_discord_advance_settings_nonce', 'ets_learnpress_discord_advance_settings_nonce' ); ?>
   <table class="form-table" role="presentation">
-	<tbody>            
+	<tbody>	<tr>
+		<th scope="row"><?php esc_html_e( 'Shortcode:', 'learnpress-discord-addon' ); ?></th>
+		<td> <fieldset>
+		[ets_learnpress_discord]
+		<br/>
+		<small><?php esc_html_e( 'Use this shortcode [ets_learnpress_discord] to display connect to discord button on any page.', 'learnpress-discord-addon' ); ?></small>
+		</fieldset></td>
+	</tr>            
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Send welcome message', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>

@@ -188,23 +188,12 @@ class Learnpress_Discord_Addon_Public {
 								|| ( ets_learnpress_discord_get_student_courses_id( $user_id ) && ! $mapped_role_name && $default_role_name )
 								|| ( $allow_none_student == 'yes' && $default_role_name ) ) {
                             
-
-			_e ( 
-				sprintf ( 
-					wp_kses ( 
-						'<style>a.learnpress-discord-btn-connect{background-color:  %s }</style>', 
-						array( 
-							'style' => array()
-						) 
-					), 
-					$ets_learnpress_discord_connect_button_bg_color 
-				) 
-			);                                
-
+                               
+				$connect_btn_bg_color = 'style="background-color:' . $ets_learnpress_discord_connect_button_bg_color . '"';
 				$restrictcontent_discord .= '<div class="learnpress-discord">';
 				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'learnpress-discord-addon' ) . '</h3>';
 				$restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord .= '<a href="?action=learnpress-discord-login" class="learnpress-discord-btn-connect ets-btn" >' . $ets_learnpress_discord_loggedin_button_text . '<i class="fab fa-discord"></i> </a>';
+				$restrictcontent_discord .= '<a href="?action=learnpress-discord-login" class="learnpress-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' >' . $ets_learnpress_discord_loggedin_button_text . '<i class="fab fa-discord"></i> </a>';
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord  = ets_learnpress_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );                                                                
 				$restrictcontent_discord .= '</div>';
@@ -214,7 +203,17 @@ class Learnpress_Discord_Addon_Public {
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script( $this->plugin_name );
 
-		echo wp_kses ( $restrictcontent_discord, ets_learnpress_discord_allowed_html() );
+		return wp_kses ( $restrictcontent_discord, ets_learnpress_discord_allowed_html() );
+	}
+
+	/**
+	 * 
+	 *
+	 * @param NONE
+	 * @return NONE
+	 */
+	public function ets_learnpress_discord_display_connect_discord_button() {
+		echo do_shortcode( '[ets_learnpress_discord]' );
 	}
 
 	/**
