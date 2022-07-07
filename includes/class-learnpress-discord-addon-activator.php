@@ -49,7 +49,8 @@ class Learnpress_Discord_Addon_Activator {
 		update_option( 'ets_learnpress_discord_disconnect_button_bg_color', '#ff0000' );
 		update_option( 'ets_learnpress_discord_loggedin_button_text', 'Connect With Discord' );
 		update_option( 'ets_learnpress_discord_non_login_button_text', 'Login With Discord' );
-		update_option( 'ets_learnpress_discord_disconnect_button_text', 'Disconnect From Discord' );                
+		update_option( 'ets_learnpress_discord_disconnect_button_text', 'Disconnect From Discord' );
+		update_option( 'ets_learnpress_discord_allow_discord_login', false );                
 	}
 
 }

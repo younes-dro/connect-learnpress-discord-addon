@@ -17,7 +17,7 @@ $set_job_cnrc                                  = sanitize_text_field( trim( get_
 $set_job_q_batch_size                          = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_job_queue_batch_size' ) ) );
 $log_api_res                                   = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_log_api_response' ) ) );
 $embed_messaging_feature                       = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_embed_messaging_feature' ) ) );
-
+$allow_discord_login                           = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_allow_discord_login' ) ) );
 ?>
 <form method="post" action="<?php echo esc_url( get_site_url().'/wp-admin/admin-post.php' ) ?>">
  <input type="hidden" name="action" value="learnpress_discord_save_advance_settings">
@@ -145,6 +145,18 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		 value="1">
 		</fieldset></td>
 	  </tr>
+	  <tr>
+		<th scope="row"><?php echo __( 'Allow Discord Authentication before checkout?', 'learnpress-discord-addon' ); ?></th>
+		<td> <fieldset>
+		<input name="allow_discord_login" type="checkbox" id="allow_discord_login" 
+		<?php
+		if ( $allow_discord_login == true ) {
+			echo esc_attr( 'checked="checked"' ); }
+		?>
+		 value="1">
+		</fieldset>
+  </td>
+	  </tr>           
 	<tr>
 		<th scope="row"><?php esc_html_e( 'How many times a failed API call should get re-try', 'learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>

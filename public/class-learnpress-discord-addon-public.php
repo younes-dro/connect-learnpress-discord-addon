@@ -946,7 +946,10 @@ class Learnpress_Discord_Addon_Public {
 	}
 	public function ets_learnpress_discord_registration_form (){
 		global $cart;
-		
+		$allow_discord_login = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_allow_discord_login' ) ) );
+		if( $allow_discord_login != 1 ){
+			return;
+		}
 		if ( ! is_user_logged_in() ) {
 			wp_enqueue_style( $this->plugin_name );
 			$cart = learn_press_get_checkout_cart();
