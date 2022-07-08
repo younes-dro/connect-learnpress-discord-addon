@@ -217,7 +217,8 @@ class Learnpress_Discord_Addon {
 		$this->loader->add_action( 'ets_learnpress_discord_as_schedule_delete_member', $plugin_public, 'ets_learnpress_discord_as_handler_delete_member_from_guild', 10, 3 );                
 //		$this->loader->add_filter( 'learn-press/profile-tabs', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button', 99, 1 );                
 //		$this->loader->add_filter( 'learn-press/before-profile-dashboard-user-general-statistic', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button', 10);                                                
-		$this->loader->add_filter( 'learn-press/user-profile-tabs', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button');
+		$this->loader->add_shortcode( 'ets_learnpress_discord', $plugin_public, 'ets_learnpress_discord_add_connect_discord_button' );                
+		$this->loader->add_filter( 'learn-press/user-profile-tabs', $plugin_public, 'ets_learnpress_discord_display_connect_discord_button' );
 		$this->loader->add_action( 'init', $plugin_public, 'ets_learnpress_discord_api_callback' );
 		$this->loader->add_action( 'ets_learnpress_discord_as_handle_add_member_to_guild', $plugin_public, 'ets_learnpress_discord_as_handler_add_member_to_guild', 10, 4 );
 		$this->loader->add_action( 'ets_learnpress_discord_as_send_dm', $plugin_public, 'ets_learnpress_discord_handler_send_dm', 10, 3 );                                
