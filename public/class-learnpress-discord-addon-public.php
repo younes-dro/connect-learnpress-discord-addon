@@ -216,7 +216,7 @@ class Learnpress_Discord_Addon_Public {
 					'<label class="ets-connection-lbl">' .
 					esc_html__(
 						'Discord connection',
-						'learnpress-discord-addon'
+						'connect-learnpress-discord-addon'
 					) .
 					'</label>';
 				$restrictcontent_discord .= '</div>';
@@ -236,7 +236,7 @@ class Learnpress_Discord_Addon_Public {
 							'Connected account: %s',
 							$_ets_learnpress_discord_username
 						),
-						'learnpress-discord-addon'
+						'connect-learnpress-discord-addon'
 					) .
 					'</p>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
@@ -264,7 +264,7 @@ class Learnpress_Discord_Addon_Public {
 					'<h3>' .
 					esc_html__(
 						'Discord connection',
-						'learnpress-discord-addon'
+						'connect-learnpress-discord-addon'
 					) .
 					'</h3>';
 				$restrictcontent_discord .= '<div class="">';

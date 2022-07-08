@@ -54,7 +54,7 @@ class Learnpress_Discord_Addon
         } else {
             $this->version = '1.0.0';
         }
-        $this->plugin_name = 'learnpress-discord-addon';
+        $this->plugin_name = 'connect-learnpress-discord-addon';
 
         $this->load_dependencies();
         $this->set_locale();

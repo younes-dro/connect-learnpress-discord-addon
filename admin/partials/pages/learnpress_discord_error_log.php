@@ -20,9 +20,9 @@
 		<input type="button" class="ets-submit ets-bg-green" value="Refresh" onClick="window.location.reload()">
 	</div>
 	<div class="form-group">
-		<a href="<?php echo esc_url( content_url('/') . $filename ); ?>" class="ets-submit ets-learnpress-bg-download" download><?php esc_html_e( 'Download', 'learnpress-discord-addon'  ); ?></a>
+		<a href="<?php echo esc_url( content_url('/') . $filename ); ?>" class="ets-submit ets-learnpress-bg-download" download><?php esc_html_e( 'Download', 'connect-learnpress-discord-addon'  ); ?></a>
 	</div>
 	<div class="form-group">
-            <a href="<?php echo esc_url( get_admin_url('', 'tools.php') ) . '?page=action-scheduler&status=pending&s=learnpress'; ?>" class="ets-submit ets-learnpress-bg-scheduled-actions"><?php esc_html_e( 'Scheduled Actions', 'learnpress-discord-addon'  ); ?></a>
+            <a href="<?php echo esc_url( get_admin_url('', 'tools.php') ) . '?page=action-scheduler&status=pending&s=learnpress'; ?>" class="ets-submit ets-learnpress-bg-scheduled-actions"><?php esc_html_e( 'Scheduled Actions', 'connect-learnpress-discord-addon'  ); ?></a>
 	</div>    
 </div>

@@ -91,7 +91,7 @@ class Learnpress_Discord_Addon_Admin {
 	 * @since    1.0.0
 	 */
 	public function ets_learnpress_discord_add_settings_menu() {
-		add_submenu_page( 'learn_press', __( 'Discord Settings', 'learnpress-discord-addon' ), __( 'Discord Settings', 'learnpress-discord-addon' ), 'manage_options', 'learnpress-discord-settings', array( $this, 'ets_learnpress_discord_setting_page' ) );
+		add_submenu_page( 'learn_press', __( 'Discord Settings', 'connect-learnpress-discord-addon' ), __( 'Discord Settings', 'connect-learnpress-discord-addon' ), 'manage_options', 'learnpress-discord-settings', array( $this, 'ets_learnpress_discord_setting_page' ) );
 	}
 
 	/**
@@ -510,7 +510,7 @@ class Learnpress_Discord_Addon_Admin {
 	 */
 	public function ets_learnpress_discord_add_learnpress_discord_column( $columns ) {
 
-		$columns['ets_learnpress_discord_api'] = esc_html__( 'LearnPress Discord', 'learnpress-discord-addon' );
+		$columns['ets_learnpress_discord_api'] = esc_html__( 'LearnPress Discord', 'connect-learnpress-discord-addon' );
 		return $columns;
 	}
 
@@ -527,9 +527,9 @@ class Learnpress_Discord_Addon_Admin {
 			wp_enqueue_script( $this->plugin_name );
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
 			if ( $access_token ) {
-				return '<a href="#" data-user-id="' . $user_id . '" class="ets-learnpress-discord-run-api" >' . esc_html__( 'RUN API', 'learnpress-discord-addon' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';
+				return '<a href="#" data-user-id="' . $user_id . '" class="ets-learnpress-discord-run-api" >' . esc_html__( 'RUN API', 'connect-learnpress-discord-addon' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';
 			}
-			return esc_html__( 'Not Connected', 'learnpress-discord-addon' );
+			return esc_html__( 'Not Connected', 'connect-learnpress-discord-addon' );
 		}
 		return $value;
 	}
@@ -633,9 +633,9 @@ class Learnpress_Discord_Addon_Admin {
 			$refresh_token                    = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );
 			$_ets_learnpress_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_username', true ) ) );
 			if ( $access_token && $refresh_token ) {
-				$DisConnect  = '<h3>' . esc_html__( 'Disconnect', 'learnpress-discord-addon' ) . '</h3>';
-				$DisConnect .= '<button data-user-id=' . $user_id . ' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">' . esc_html__( 'Disconnect from discord ', 'learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';
-				$DisConnect .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learnpress_discord_username ), 'learnpress-discord-addon' ) . '</p>';
+				$DisConnect  = '<h3>' . esc_html__( 'Disconnect', 'connect-learnpress-discord-addon' ) . '</h3>';
+				$DisConnect .= '<button data-user-id=' . $user_id . ' type="button" class="button disconnect-discord-user" id="disconnect-discord-user">' . esc_html__( 'Disconnect from discord ', 'connect-learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';
+				$DisConnect .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learnpress_discord_username ), 'connect-learnpress-discord-addon' ) . '</p>';
 				_e( wp_kses( $DisConnect, ets_learnpress_discord_allowed_html() ) );
 			}
 		}
@@ -692,7 +692,7 @@ class Learnpress_Discord_Addon_Admin {
 	 */
 	public function ets_learnpress_discord_add_learnpress_disconnect_discord_column( $columns ) {
 
-		$columns['ets_learnpress_disconnect_discord_connection'] = esc_html__( 'LP Discord Connection', 'learnpress-discord-addon' );
+		$columns['ets_learnpress_disconnect_discord_connection'] = esc_html__( 'LP Discord Connection', 'connect-learnpress-discord-addon' );
 		return $columns;
 	}
 
@@ -709,9 +709,9 @@ class Learnpress_Discord_Addon_Admin {
 			$access_token                     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
 			$_ets_learnpress_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_username', true ) ) );
 			if ( $access_token ) {
-				return '<button  data-user-id="' . $user_id . '" class="disconnect-discord-user" >' . esc_html__( 'Disconnect from discord ', 'learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button><p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learnpress_discord_username ), 'learnpress-discord-addon' ) . '</p>';
+				return '<button  data-user-id="' . $user_id . '" class="disconnect-discord-user" >' . esc_html__( 'Disconnect from discord ', 'connect-learnpress-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button><p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learnpress_discord_username ), 'connect-learnpress-discord-addon' ) . '</p>';
 			}
-			return esc_html__( 'Not Connected', 'learnpress-discord-addon' );
+			return esc_html__( 'Not Connected', 'connect-learnpress-discord-addon' );
 		}
 		return $value;
 	}

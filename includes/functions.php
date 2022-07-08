@@ -460,7 +460,7 @@ function ets_learnpress_discord_roles_assigned_message ( $mapped_role_name, $def
 	if ( $mapped_role_name ) {
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
 					
-		$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'learnpress-discord-addon' );
+		$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'connect-learnpress-discord-addon' );
 		$restrictcontent_discord .= $mapped_role_name ;
 		if ( $default_role_name ) {
 			$restrictcontent_discord .= $default_role_name; 
@@ -471,7 +471,7 @@ function ets_learnpress_discord_roles_assigned_message ( $mapped_role_name, $def
 	} elseif( $default_role_name ) {
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
 					
-		$restrictcontent_discord .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'learnpress-discord-addon' );
+		$restrictcontent_discord .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'connect-learnpress-discord-addon' );
 		$restrictcontent_discord .= $default_role_name; 
 					
 		$restrictcontent_discord .= '</p>';

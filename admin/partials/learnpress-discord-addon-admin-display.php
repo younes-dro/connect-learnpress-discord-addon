@@ -21,27 +21,27 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 	<?php
 }
 ?>
-<h1><?php esc_html_e( 'LearnPress Discord Add On Settings', 'learnpress-discord-addon' ); ?></h1>
+<h1><?php esc_html_e( 'LearnPress Discord Add On Settings', 'connect-learnpress-discord-addon' ); ?></h1>
 		<div id="learnpress-discord-outer" class="skltbs-theme-light" data-skeletabs='{ "startIndex": 0 }'>
 			<ul class="skltbs-tab-group">
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="settings" ><?php esc_html_e( 'Application Details', 'learnpress-discord-addon' ); ?><span class="initialtab spinner"></span></button>
+				<button class="skltbs-tab" data-identity="settings" ><?php esc_html_e( 'Application Details', 'connect-learnpress-discord-addon' ); ?><span class="initialtab spinner"></span></button>
 				</li>
 				<li class="skltbs-tab-item">
 				<?php if ( learnpress_discord_check_saved_settings_status() ): ?>
-				<button class="skltbs-tab" data-identity="level-mapping" ><?php esc_html_e( 'Role Mappings', 'learnpress-discord-addon' ); ?></button>
+				<button class="skltbs-tab" data-identity="level-mapping" ><?php esc_html_e( 'Role Mappings', 'connect-learnpress-discord-addon' ); ?></button>
 				<?php endif; ?>
 				</li>
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="advanced" ><?php esc_html_e( 'Advanced', 'learnpress-discord-addon' ); ?>	
+				<button class="skltbs-tab" data-identity="advanced" ><?php esc_html_e( 'Advanced', 'connect-learnpress-discord-addon' ); ?>	
 				</button>
 				</li>
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="appearance" ><?php esc_html_e( 'Appearance', 'learnpress-discord-addon' ); ?>	
+				<button class="skltbs-tab" data-identity="appearance" ><?php esc_html_e( 'Appearance', 'connect-learnpress-discord-addon' ); ?>	
 				</button>
 				</li>                                
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="logs" ><?php esc_html_e( 'Logs', 'learnpress-discord-addon' ); ?>	
+				<button class="skltbs-tab" data-identity="logs" ><?php esc_html_e( 'Logs', 'connect-learnpress-discord-addon' ); ?>	
 				</button>
 				</li>                                
 			
