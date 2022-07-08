@@ -1,15 +1,4 @@
 <?php
-
-/**
- * Register all actions and filters for the plugin
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learnpress_Discord_Addon
- * @subpackage Learnpress_Discord_Addon/includes
- */
-
 /**
  * Register all actions and filters for the plugin.
  *

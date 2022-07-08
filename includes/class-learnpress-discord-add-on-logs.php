@@ -24,7 +24,6 @@ class LearnPress_Discord_Add_On_Logs {
 	 */
 	public function ets_learnpress_discord_clear_logs() {
 
-
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();

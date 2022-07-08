@@ -1,15 +1,4 @@
 <?php
-
-/**
- * Fired during plugin deactivation
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learnpress_Discord_Addon
- * @subpackage Learnpress_Discord_Addon/includes
- */
-
 /**
  * Fired during plugin deactivation.
  *

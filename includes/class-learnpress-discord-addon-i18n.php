@@ -1,19 +1,6 @@
 <?php
 
 /**
- * Define the internationalization functionality
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learnpress_Discord_Addon
- * @subpackage Learnpress_Discord_Addon/includes
- */
-
-/**
  * Define the internationalization functionality.
  *
  * Loads and defines the internationalization files for this plugin

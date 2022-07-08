@@ -1,22 +1,15 @@
 <?php
 
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
  * @link              https://www.expresstechsoftwares.com
  * @since             1.0.0
  * @package           Learnpress_Discord_Addon
  *
  * @wordpress-plugin
- * Plugin Name:       LearnPress Discord Add
+ * Plugin Name:       Connect LearnPress Discord Add-on
  * Plugin URI:        https://www.expresstechsoftwares.com/step-by-step-guide-on-how-to-connect-learnpress-and-discord
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           4.0.0
+ * Description:       Connect LearnPress LMS with Discord and add a new dimension to your LearnPress website by allowing students to collaborate and learn together via Discord community features, manage and assign roles to students based on the course they have registered for.
+ * Version:           1.0.0
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
  * License:           GPL-2.0+
@@ -28,14 +21,12 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) { 
 	die;
 }
 
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
  */
 define( 'LEARNPRESS_DISCORD_ADDON_VERSION', '1.0.0' );
 
