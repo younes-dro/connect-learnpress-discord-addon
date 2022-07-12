@@ -550,7 +550,7 @@ class Learnpress_Discord_Addon_Admin {
 			exit();
 		}
 
-		$user_id                             = $_POST['ets_learnpress_discord_user_id'];
+		$user_id                             = sanitize_text_field( trim( $_POST['ets_learnpress_discord_user_id'] ) );
 		$access_token                        = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
 		$refresh_token                       = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );
 		$ets_learnpress_discord_role_mapping = json_decode( get_option( 'ets_learnpress_discord_role_mapping' ), true );
@@ -628,7 +628,7 @@ class Learnpress_Discord_Addon_Admin {
 		if ( current_user_can( 'administrator' ) ) {
 						wp_enqueue_script( $this->plugin_name . '-tabs-js' );
 			wp_enqueue_script( $this->plugin_name );
-			$user_id                          = ( isset( $_GET['user_id'] ) ) ? $_GET['user_id'] : get_current_user_id();
+			$user_id                          = ( isset( $_GET['user_id'] ) ) ? sanitize_text_field( trim( $_GET['user_id'] ) ) : get_current_user_id();
 			$access_token                     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_access_token', true ) ) );
 			$refresh_token                    = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_refresh_token', true ) ) );
 			$_ets_learnpress_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learnpress_discord_username', true ) ) );
@@ -788,7 +788,7 @@ class Learnpress_Discord_Addon_Admin {
 			exit();
 		}
 
-		$page_id = $_POST['ets_learnpress_page_id'];
+		$page_id = sanitize_text_field( trim( $_POST['ets_learnpress_page_id'] ) );
 		if ( isset( $page_id ) ) {
 			$formated_discord_redirect_url = ets_get_learnpress_discord_formated_discord_redirect_url( $page_id );
 			update_option( 'ets_learnpress_discord_redirect_page_id', $page_id );
