@@ -5,7 +5,7 @@ Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com/step-by-step-guide-on-how-to-connect-learnpress-and-discord
 Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 7.0
 Stable tag: 1.0.0
 License: GPLv2
