@@ -749,7 +749,11 @@ class Learnpress_Discord_Addon_Admin {
 				// $result_process_payment = $result ['result'];
 	}
 	public function ets_learnpress_discord_order_status_changed( $order_id, $old_status, $new_status ) {
+		if ( ! current_user_can( 'administrator' ) && ! is_user_logged_in() ) {
 
+			wp_send_json_error( 'You do not have sufficient rights OR you lose the wp nonce, log out and log in to fix it', 403 );
+			exit();
+		}
 		// We will assign course mapped role and Welcome DB only after successful PAYMENT
 		if ( $new_status == 'completed' ) {
 			$allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_allow_none_student' ) ) );
