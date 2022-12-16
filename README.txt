@@ -23,6 +23,7 @@ Very simple setup and intutive User interface to Manage Student Role inside Disc
 - If you did like the plugin, kindly support us in doing free excellent work our PayPal email is: business@expresstechsoftwares.com
 
 Connect LearnPress to Discord Plugin Features:
+
 * Allow any student to connect their discord account with their LearnPress website account.
 
 * Mapping of courses and discord roles.
@@ -40,6 +41,11 @@ Connect LearnPress to Discord Plugin Features:
 * Assign roles to student when admin assign a course.
 
 * Button designer to match the theme of your website.
+
+* Force logout of a student from the users list.
+
+= Important Links =
+* [Github →](https://github.com/expresstechsoftware/connect-learnpress-discord-addon)
 
 == Installation ==
 
