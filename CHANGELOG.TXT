@@ -1,2 +1,5 @@
+= 1.0.1 =
+- Fix error 10004:Unknown Guild 
+
 = 1.0.0 =
 - Release of Connect LearnPress and Discord WordPress plugin
