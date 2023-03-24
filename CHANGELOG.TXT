@@ -1,3 +1,6 @@
+= 1.0.2 =
+- Add link to the plugin support forum 
+
 = 1.0.1 =
 - Fix error 10004:Unknown Guild 
 

@@ -36,6 +36,11 @@ define( 'LEARNPRESS_DISCORD_ADDON_VERSION', '1.0.1' );
 define( 'LEARNPRESS_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
+ * Define plugin directory path
+ */
+define( 'LEARNPRESS_DISCORD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+/**
  * Discord Bot Permissions.
  */
 define( 'LEARNPRESS_DISCORD_BOT_PERMISSIONS', 8 );
