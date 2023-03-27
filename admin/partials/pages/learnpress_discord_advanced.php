@@ -73,12 +73,8 @@ $ets_learnpress_discord_data_erases = sanitize_text_field( trim( get_option( 'et
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Welcome message', 'connect-learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_dm_textarea" name="ets_learnpress_discord_welcome_message" id="ets_learnpress_discord_welcome_message" row="25" cols="50">
-		<?php
-		if ( $ets_learnpress_discord_welcome_message ) {
-			echo esc_textarea( wp_unslash( $ets_learnpress_discord_welcome_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learnpress_discord_welcome_message_value = ( isset( $ets_learnpress_discord_welcome_message ) ) ? $ets_learnpress_discord_welcome_message : ''; ?>
+		<textarea class="ets_learnpress_discord_dm_textarea" name="ets_learnpress_discord_welcome_message" id="ets_learnpress_discord_welcome_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learnpress_discord_welcome_message_value ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields: [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_COURSES], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -97,12 +93,8 @@ $ets_learnpress_discord_data_erases = sanitize_text_field( trim( get_option( 'et
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Course Complete message', 'connect-learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_course_complete_message" name="ets_learnpress_discord_course_complete_message" id="ets_learnpress_discord_course_complete_message" row="25" cols="50">
-		<?php
-		if ( $ets_learnpress_discord_course_complete_message ) {
-			echo esc_textarea( wp_unslash( $ets_learnpress_discord_course_complete_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learnpress_discord_course_complete_message_value = ( isset( $ets_learnpress_discord_course_complete_message ) ) ? $ets_learnpress_discord_course_complete_message : ''; ?>
+		<textarea class="ets_learnpress_discord_course_complete_message" name="ets_learnpress_discord_course_complete_message" id="ets_learnpress_discord_course_complete_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learnpress_discord_course_complete_message_value ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields: [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_COURSE_NAME], [LP_COURSE_COMPLETE_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -121,12 +113,8 @@ $ets_learnpress_discord_data_erases = sanitize_text_field( trim( get_option( 'et
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Lesson Complete message', 'connect-learnpress-discord-addon' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learnpress_discord_lesson_complete_message" name="ets_learnpress_discord_lesson_complete_message" id="ets_learnpress_discord_lesson_complete_message" row="25" cols="50">
-		<?php
-		if ( $ets_learnpress_discord_lesson_complete_message ) {
-			echo esc_textarea( wp_unslash( $ets_learnpress_discord_lesson_complete_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learnpress_discord_lesson_complete_message_value = ( isset( $ets_learnpress_discord_lesson_complete_message ) ) ? $ets_learnpress_discord_lesson_complete_message : ''; ?>
+		<textarea class="ets_learnpress_discord_lesson_complete_message" name="ets_learnpress_discord_lesson_complete_message" id="ets_learnpress_discord_lesson_complete_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learnpress_discord_lesson_complete_message_value ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields:  [LP_STUDENT_NAME], [LP_STUDENT_EMAIL], [LP_LESSON_NAME], [LP_COURSE_LESSON_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
