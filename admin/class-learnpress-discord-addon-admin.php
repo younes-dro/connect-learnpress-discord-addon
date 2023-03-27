@@ -418,6 +418,11 @@ class Learnpress_Discord_Addon_Admin {
 				} else {
 					update_option( 'ets_learnpress_discord_allow_discord_login', false );
 				}
+				if ( isset( $_POST['ets_learnpress_discord_data_erases'] ) ) {
+					update_option( 'ets_learnpress_discord_data_erases', true );
+				} else {
+					update_option( 'ets_learnpress_discord_data_erases', false );
+				}				
 				$message = 'Your settings are saved successfully.';
 
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learnpress_discord_advanced';
