@@ -1,2 +1,12 @@
+= 1.0.3 =
+- Add support WordPress 6.2
+-
+
+= 1.0.2 =
+- Add link to the plugin support forum 
+
+= 1.0.1 =
+- Fix error 10004:Unknown Guild 
+
 = 1.0.0 =
 - Release of Connect LearnPress and Discord WordPress plugin

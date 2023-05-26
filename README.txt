@@ -5,9 +5,9 @@ Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com/step-by-step-guide-on-how-to-connect-learnpress-and-discord
 Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.3
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,13 +57,18 @@ Connect LearnPress to Discord Plugin Features:
 == Checkout Our Other Plugins ==
 1. [Connect MemberPress and Discord](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
 2. [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
-3. [Connect LearnDash and Discord](https://wordpress.org/plugins/connect-learndash-and-discord/)
-4. [Connect GamiPress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
+3. [Connect ProfilePress and Discord](https://wordpress.org/plugins/connect-profilepress-and-discord/)
+4. [Connect LearnDash and Discord](https://wordpress.org/plugins/connect-learndash-and-discord/)
 5. [Connect LifterLMS and Discord](https://wordpress.org/plugins/connect-lifterlms-to-discord/)
 6. [Webhook For WCFM Vendors](https://wordpress.org/plugins/webhook-for-wcfm-vendors/)
 7. [Inspect HTTP Requests](https://wordpress.org/plugins/inspect-http-requests/)
 8. [Product Questions & Answers for WooCommerce](https://wordpress.org/plugins/product-questions-answers-for-woocommerce/)
 9. [Connect Ultimate Member and Discord](https://wordpress.org/plugins/ultimate-member-discord-add-on/)
+10. [Connect BadgeOS and Discord](https://wordpress.org/plugins/connect-badgeos-to-discord/)
+11. [connect Eduma Theme and  Discord](https://wordpress.org/plugins/connect-eduma-theme-to-discord/)
+12. [connect Restrict Content Pro and Discord Addon](https://wordpress.org/plugins/connect-restrictcontentpro-to-discord-addon/)
+13. [connect GamiPress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
+14. [Connect Tutor LMS to Discord](https://wordpress.org/plugins/connect-tutorlms-to-discord/)
 
 
 == Frequently Asked Questions ==
