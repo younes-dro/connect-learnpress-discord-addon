@@ -9,7 +9,7 @@
  * Plugin Name:       Connect LearnPress Discord Add-on
  * Plugin URI:        https://www.expresstechsoftwares.com/step-by-step-guide-on-how-to-connect-learnpress-and-discord
  * Description:       Connect LearnPress LMS with Discord and add a new dimension to your LearnPress website by allowing students to collaborate and learn together via Discord community features, manage and assign roles to students based on the course they have registered for.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
  * License:           GPL-2.0+
@@ -28,7 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Currently plugin version.
  */
-define( 'LEARNPRESS_DISCORD_ADDON_VERSION', '1.0.2' );
+define( 'LEARNPRESS_DISCORD_ADDON_VERSION', '1.0.3' );
 
 /**
  * Define plugin directory path
