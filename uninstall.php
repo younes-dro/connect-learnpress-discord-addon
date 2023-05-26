@@ -14,8 +14,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-if ( $_REQUEST['plugin'] == 'connect-learnpress-discord-addon/learnpress-discord-addon.php'
-		&& $_REQUEST['slug'] == 'learnpress-discord-add'
+if ( $_REQUEST['plugin'] == 'connect-learnpress-discord-add-on/learnpress-discord-addon.php'
+		&& $_REQUEST['slug'] == 'connect-learnpress-discord-add-on'
 	&& wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'updates' )
   ) {
 	$ets_learnpress_discord_data_erases = sanitize_text_field( trim( get_option( 'ets_learnpress_discord_data_erases' ) ) );
