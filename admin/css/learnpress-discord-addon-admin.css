@@ -536,3 +536,26 @@ p.redirect-url{
 .ets-input-group p.description span.spinner{
     float: none;
 }
+
+/* Notification review */
+div.ets-learnpress-discord-review-notice{
+  background-color: #FFF;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 !important;
+  position: relative;
+}
+
+div.ets-learnpress-discord-review-notice div.ets-learnpress-discord-notice-icon{
+  background-image: url(../images/icon.png);
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-width: 150px;
+}
+div.ets-learnpress-discord-review-notice div.ets-learnpress-discord-notice-content{
+  padding: 20px;
+}
