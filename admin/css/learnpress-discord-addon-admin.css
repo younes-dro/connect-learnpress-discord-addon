@@ -559,3 +559,13 @@ div.ets-learnpress-discord-review-notice div.ets-learnpress-discord-notice-icon{
 div.ets-learnpress-discord-review-notice div.ets-learnpress-discord-notice-content{
   padding: 20px;
 }
+div.ets-learnpress-discord-review-notice div.ets-learnpress-discord-notice-content p.ets-learnpress-discord-signature {
+  display: flex; 
+  align-items: center;
+}
+div.ets-learnpress-discord-review-notice div.ets-learnpress-discord-notice-content img{
+  width: 45px;
+  height: auto;
+  border-radius: 50%;
+  margin-left: 15px;
+}
