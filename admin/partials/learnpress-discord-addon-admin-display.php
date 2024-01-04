@@ -28,7 +28,7 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				<button class="skltbs-tab" data-identity="settings" ><?php esc_html_e( 'Application Details', 'connect-learnpress-discord-addon' ); ?><span class="initialtab spinner"></span></button>
 				</li>
 				<li class="skltbs-tab-item">
-				<?php if ( learnpress_discord_check_saved_settings_status() ): ?>
+				<?php if ( learnpress_discord_check_saved_settings_status() ) : ?>
 				<button class="skltbs-tab" data-identity="level-mapping" ><?php esc_html_e( 'Role Mappings', 'connect-learnpress-discord-addon' ); ?></button>
 				<?php endif; ?>
 				</li>
@@ -45,15 +45,18 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				</button>
 				</li>
 				<li class="skltbs-tab-item">
+					<button class="skltbs-tab" data-identity="documentation"><?php esc_html_e( 'Documentation', 'connect-learnpress-discord-addon' ); ?></button>
+				</li>
+				<li class="skltbs-tab-item">
 				<button class="skltbs-tab" data-identity="support" ><?php esc_html_e( 'Support', 'connect-learnpress-discord-addon' ); ?>	
 				</button>
 				</li>				
-            </ul>
+			</ul>
 			<div class="skltbs-panel-group">
 				<div id="ets_learnpress_application_details" class="learnpress-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_application_details.php'; ?>
 				</div>
-				<?php if ( learnpress_discord_check_saved_settings_status() ): ?>      
+				<?php if ( learnpress_discord_check_saved_settings_status() ) : ?>      
 				<div id="ets_learnpress_discord_role_mapping" class="learnpress-discord-tab-conetent skltbs-panel">
 					<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_role_mapping.php'; ?>
 				</div>
@@ -67,6 +70,9 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				<div id='ets_learnpress_discord_logs' class="learnpress-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_error_log.php'; ?>
 				</div>
+				<div id='ets_learnpress_discord_documentation' class="learnpress-discord-tab-conetent skltbs-panel">
+				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_documentation.php'; ?>
+				</div>				
 				<div id='ets_learnpress_discord_support' class="learnpress-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNPRESS_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learnpress_discord_support.php'; ?>
 				</div>                           
